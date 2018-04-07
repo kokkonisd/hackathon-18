@@ -5,7 +5,7 @@ import sys
 
 
 def play(music='solace.mp3'):
-    songs_directory_path = "/home/pi/Music/"
+    songs_directory_path = "../apps/mozart/musiques/"
     command_str = "cvlc " + songs_directory_path + music
     os.system(command_str)
 
