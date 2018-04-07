@@ -7,7 +7,7 @@ from generate_html import generate_html
 from request import request
 import sys
 
-path=""
+path="../apps/myweather/"
 
 def render():
     file=open(path+"cities.txt","r")
