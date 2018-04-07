@@ -7,8 +7,8 @@ def take_pictures(nb_images=5):
 	while image_number < nb_images:
 		sleep(1)
 		image_name = 'image{0:04d}.jpg'.format(image_number)
-    		camera.capture(image_name)
-    		image_number += 1
+		camera.capture(image_name)
+		image_number += 1
 
 for argument in sys.argv[1::]:
 	parsed_arg = argument.split('=')
