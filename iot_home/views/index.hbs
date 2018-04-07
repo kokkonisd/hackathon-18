@@ -1,0 +1,129 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+<link rel="stylesheet" href="https://dansup.github.io/bulma-templates/css/forum.css">
+
+<div id="myapps">
+<nav class="navbar is-white topNav">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../">
+        <img src="https://www.intel.sg/content/dam/www/public/apac/xa/en/images/monthly-webinar/icons-iot-16x9.png.rendition.intel.web.256.144.png" width="60" height="144">      </a>
+      <div class="navbar-burger burger" data-target="topNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div id="topNav" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="forum.html">
+          Home
+        </a>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          {{username}}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<nav class="navbar is-white">
+  <div class="container">
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="objects">My objects</a>
+        <a class="navbar-item is-active" href="index">My applications</a>
+        <a class="navbar-item" href="store">IOT Store</a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <input class="input" type="text" placeholder="Search in my apps..." style="width:500px;" v-model="recherche">
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<section class="container">
+  <div class="columns">
+    <div class="column is-9">
+      <div class="box content">
+        <article class="post" v-for="resultat in resultatsRecherche">
+          <h4>${resultat.name}</h4>
+          <div class="media">
+            <div class="media-left">
+              <p class="image is-32x32">
+                <img src="https://www.intel.sg/content/dam/www/public/apac/xa/en/images/monthly-webinar/icons-iot-16x9.png.rendition.intel.web.256.144.png" width="60" height="144">
+              </p>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  ${resultat.description}<br>
+                  <strong>version ${resultat.version}, rating: ${resultat.rating} </strong>
+                </p>
+              </div>
+            </div>
+          <div class="media-right">
+             <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
+          </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
+<script>
+    alertify.delay(3000);
+String.prototype.sansAccent = function(){
+    var accent = [
+        /[\300-\306]/g, /[\340-\346]/g, // A, a
+        /[\310-\313]/g, /[\350-\353]/g, // E, e
+        /[\314-\317]/g, /[\354-\357]/g, // I, i
+        /[\322-\330]/g, /[\362-\370]/g, // O, o
+        /[\331-\334]/g, /[\371-\374]/g, // U, u
+        /[\321]/g, /[\361]/g, // N, n
+        /[\307]/g, /[\347]/g, // C, c
+    ];
+    var noaccent = ['A','a','E','e','I','i','O','o','U','u','N','n','C','c'];
+
+    var str = this;
+    for(var i = 0; i < accent.length; i++){
+        str = str.replace(accent[i], noaccent[i]);
+    }
+
+    return str;
+  }
+  var socket = io.connect('http://127.0.0.1:5000');
+
+  new Vue({
+    delimiters: ['${', '}'],
+    el:'#myapps',
+
+    data: {
+      myapps: [{{#each myapps}}{name: "{{name}}", description:"{{description}}", version:"{{version}}", rating: "{{rating}}"},{{/each}}],
+      recherche: "",
+    },
+
+    mounted: function() {
+      socket.on('addRefreshNewObjects', function() {
+        alertify.log("A new object requests validation");
+      });
+    },
+
+
+    computed: {
+      resultatsRecherche:function() {
+          if(this.recherche == "")
+            return this.myapps;
+          return this.myapps.filter(application => application.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0);
+        }
+    }
+  })
+</script>

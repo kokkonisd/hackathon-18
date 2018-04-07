@@ -1,0 +1,14 @@
+listeners
+  - listeners[signal] : liste de devices
+
+device
+  - name
+  - ip
+  - type
+
+object
+  - name
+  - type
+  - ip
+
+waitingNewObjects
