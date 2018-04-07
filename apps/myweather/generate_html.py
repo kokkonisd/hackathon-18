@@ -128,22 +128,7 @@ def generate_html(city_list):
             </div>
         </div>
 
-        <hr>
-
-        <div class="row">
-            <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                <div class="city-name lead text-center">Paris</div>
-                <br>
-                <ul class="weather-items">
-                    <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 12&deg;C</div></li>
-                    <li><div class="text-center"><i class="fa fa-sun-o"></i> Sunny</div></li>
-                </ul>
-                <br>
-                <i class="fa fa-times delete"></i>
-            </div>
-        </div>
-
-        <br>"""
+        <hr>"""
 
 
     
