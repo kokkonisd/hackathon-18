@@ -17,6 +17,9 @@ module.exports = function(app, io, utils) {
       utils.acceptObject(data);
     });
 
+    client.on('uninstallApp', function(data) {
+      utils.acceptObject(data);
+    });
   });
 
 };

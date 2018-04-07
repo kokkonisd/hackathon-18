@@ -62,6 +62,7 @@
                 <p>
                   ${resultat.description}<br>
                   <strong>version ${resultat.version}, rating: ${resultat.rating} </strong>
+                  <a href="" class="button is-danger" style="margin-top: 20px; margin-left: 400px;" @click="uninstallButtonClicked(resultat)">Uninstall</a><a href="" class="button is-success" style="margin-left: 50px; margin-top: 20px; width: 100px; align:right" @click="openButtonClicked(resultat)">Open</a>
                 </p>
               </div>
             </div>
@@ -115,15 +116,24 @@ String.prototype.sansAccent = function(){
       socket.on('addRefreshNewObjects', function() {
         alertify.log("A new object requests validation");
       });
+      socket.on('updateMyapps', function(payload) {
+        this.myapps = payload;
+      })
     },
 
 
     computed: {
       resultatsRecherche:function() {
-          if(this.recherche == "")
-            return this.myapps;
-          return this.myapps.filter(application => application.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0);
-        }
+        if(this.recherche == "")
+          return this.myapps;
+        return this.myapps.filter(application => application.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0);
+      },
+    },
+
+    methods: {
+      uninstallButtonClicked:function(application) {
+        socket.emit('uninstallApp', application.name);
+      },
     }
   })
 </script>
