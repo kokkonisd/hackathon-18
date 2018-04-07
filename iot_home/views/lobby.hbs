@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="block">
+    <h1 class="title is-1">{{ lobbyName }}</h1>
+  </div>
+
+  <div class="block" id="lobby">
+    <table class="table is-bordered is-hoverable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Selected hero</th>
+          <th>Played heroes</th>
+          <th>Rank</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="member in members">
+          <td>${member.userName}</td>
+          <!--<td>${member.selected}</td>-->
+          <td>${member.playedHeroes}</td>
+          <td>${member.userRank}</td>
+          <td>${member.isLeader}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <div v-for="hero in heroes">
+      <input type="checkbox" :id=hero :value=hero v-model="wantedHeroes">
+      <label :for=hero>${hero}</label>
+    </div>
+
+    <button class="button is-primary" @click="selectAll">Check all not taken</button>
+    <button class="button is-info" @click="selectAll">Check all</button>
+    <button class="button" @click="deselectAll">Uncheck all</button>
+    <button class="button is-warning is-inverted" @click="leave">Leave</button>
+
+  </div>
+</div>
+
+<script>
+  var socket = io.connect('http://127.0.0.1:8080');
+  socket.on('connect', function(data) {
+    console.log("Connected to the lobby server");
+  });
+
+  new Vue({
+    delimiters: ['${', '}'],
+    el:'#lobby',
+
+    data: {
+      members: [],
+      heroes: ["Ana", "Bastion", "Brigitte", "D.Va", "Doomfist", "Genji", "Hanzo", "Junkrat", "Lúcio", "McCree", "Mei", "Mercy", "Moira", "Pharah", "Roadhog", "Soldier 76", "Sombra", "Torbjörn", "Tracer", "Widowmaker", "Winston", "Zenyatta"],
+      wantedHeroes: [],
+      selectedHero: ""
+    },
+
+    mounted: function() {
+      var socket = io.connect('http://127.0.0.1:8080');
+
+      socket.on('connect', function(payload) {
+        socket.emit('getLobbyPlayers', {dataLobbyName: "{{lobbyName}}", dataPlayerId: "{{uuid}}" });
+      });
+
+      socket.on('getLobbyPlayers', function(payload) {
+        console.log("Getting lobby players: ", payload);
+        this.members = payload;
+      }.bind(this));
+
+      socket.on('lobbyDestroyed', function() {
+        console.log("Lobby destroyed !");
+      });
+
+    },
+
+    methods: {
+      selectAll: function() {
+        this.wantedHeroes = this.heroes;
+      },
+      deselectAll: function() {
+        this.wantedHeroes = [];
+      },
+      leave: function() {
+        window.location.replace("/general");
+      }
+
+      /*send: function(e) {
+        e.preventDefault();
+
+        var payload = [channel, userId, this.message];
+        if(this.message == '')
+          this.message = null;
+
+        if(this.message !== null)
+          socket.emit('chat', payload);
+
+        this.message = null;
+      }*/
+    }
+  })
+</script>
