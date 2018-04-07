@@ -21,11 +21,11 @@ app.use(bodyParser.urlencoded({ extended : false} ));
 app.use(bodyParser.json());
 
 
-function searchApps(name) {
-    http.get('search/:name', getAppList);
+function searchApps (name) {
+    http.get(`http://localhost:8080/search/${name}`, getAppList);
 }
 
-function getAppList(data) {
+function getAppList (data) {
     console.log(data);
 }
 
@@ -36,4 +36,4 @@ function downloadApp(name) {
     });
 }
 
-searchApps(name);
+searchApps("test");
