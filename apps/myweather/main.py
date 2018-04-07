@@ -1,7 +1,10 @@
+#8755d341b4b6e0dcd22ae99fa27bc64b
+#http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={8755d341b4b6e0dcd22ae99fa27bc64b} 
+
 #! /usr/bin/env python3
 
-from play import play
 from generate_html import generate_html
+from request import request
 import sys
 
 for data in sys.argv[1::]:
@@ -13,9 +16,6 @@ for data in sys.argv[1::]:
         else:
             value=None
 
-        if (arg=="html"):
-            generate_html()
-        elif (arg=="play"):
-            play(value)
+        
 
-#sys.stdout.flush()
+sys.stdout.flush()
