@@ -12,20 +12,10 @@ camera.annotate_text_size = 92
 camera.annotate_foreground = Color(r=255, g=255, b=255)
 camera.annotate_background = Color(r=0, g=0, b=0)	
 
-# path = "/home/pi/image.png"
-
-# def gif_generate(nb_image):
-# 	return "\n\nGENERATE\n\n"+ str(nb_image) + " images"
-
-# def gif_get_gif():
-# 	print("\n\nGET GIF\n\n")
-# 	return "/home/pi/image.png"
-
-# def take_picture():
 
 def take_picture(name='image.jpg'):
 	#path='/home/pi/Desktop/'
-	path = "./static/"
+	path = "static/"
 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	camera.start_preview()
@@ -40,11 +30,4 @@ app = Flask(__name__)
 def gif(name_image):
 	if request.method == 'GET':
 		return take_picture(name_image)
-
-	# if request.method == 'POST':
-	# 	data = request.form
-	# 	print(data)
-	# 	nb_image_from_data = data['nb_image']
-	# 	return take_picture(nb_image_from_data)
-
 
