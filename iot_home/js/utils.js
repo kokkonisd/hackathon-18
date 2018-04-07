@@ -1,4 +1,4 @@
-module.exports = function(http, fs, myapps, unzip) {
+module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, listeners, waitingNewObjects) {
 
   const removeAlreadyPossessed = function(apps) {
     newapps = [];
@@ -19,6 +19,25 @@ module.exports = function(http, fs, myapps, unzip) {
     return existe;
   };
 
+  function alreadyContains(devices, deviceName) {
+    for(var key in devices) {
+      if(devices[key].name == deviceName)
+        return true;
+    }
+    return false;
+  }
+
+  function getMyObjects() {
+    var objets = [];
+    for(var keysignal in listeners) {
+      for(var i = 0; i < listeners[keysignal].length; i++) {
+        if(!alreadyContains(objets, listeners[keysignal][i].name))
+          objets.push(listeners[keysignal][i]);
+      }
+    }
+    return objets;
+  }
+
 
   return {
     searchApps: function(name, callBack) {
@@ -35,7 +54,7 @@ module.exports = function(http, fs, myapps, unzip) {
         });
     },
 
-    downloadApp: function(application, callback) { // TODO extraire le zip
+    downloadApp: function(application, callback) {
         var appName = application.name.toLowerCase();
         var file = fs.createWriteStream("apps/"+appName+".zip");
         var request = http.get(`http://localhost:8080/download/?name=${appName}`, function(response) {
@@ -51,6 +70,27 @@ module.exports = function(http, fs, myapps, unzip) {
         fs.writeFile('apps/myapps.json', JSON.stringify(myapps), 'utf8', function() {
       });
     },
+
+    acceptObject: function(name) {
+      for(var i = 0; i < waitingNewObjects.length; i++) {
+        if(name == waitingNewObjects[i].name) {
+          var name = waitingNewObjects[i].name;
+          var signal = waitingNewObjects[i].listens;
+          var type = waitingNewObjects[i].type;
+          var ip = waitingNewObjects[i].ip;
+
+          if(listeners[signal] === undefined)
+            listeners[signal] = [{name: name, type: type, ip: ip}];
+          else
+            listeners[signal].push({name: name, type: type, ip: ip});
+
+          waitingNewObjects.splice(i, 1);
+          io.sockets.emit('refreshMyObjects', getMyObjects());
+          io.sockets.emit('refreshNewObjects', waitingNewObjects);
+          return;
+        }
+      }
+    }
 
 }
 

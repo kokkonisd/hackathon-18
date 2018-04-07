@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 <link rel="stylesheet" href="https://dansup.github.io/bulma-templates/css/forum.css">
 
-<div id="availableApps">
+<div id="myobjects">
 <nav class="navbar is-white topNav">
   <div class="container">
     <div class="navbar-brand">
@@ -33,13 +33,13 @@
   <div class="container">
     <div class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" href="objects">My objects</a>
+        <a class="navbar-item is-active" href="objects">My objects</a>
         <a class="navbar-item" href="index">My applications</a>
-        <a class="navbar-item is-active" href="store">IOT Store</a>
+        <a class="navbar-item" href="store">IOT Store</a>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <input class="input" type="text" placeholder="Search in my apps..." style="width:500px;" v-model="recherche">
+          <input class="input" type="text" placeholder="Search in my objects..." style="width:500px;" v-model="recherche">
         </div>
       </div>
     </div>
@@ -47,27 +47,42 @@
 </nav>
 <section class="container">
   <div class="columns">
-    <div class="column is-9">
+    <div class="column is-8">
       <div class="box content">
-        <article class="post" v-for="resultat in resultatsRecherche" @click="clickArticle(resultat)">
+        <article class="post" v-for="resultat in resultatsRecherche">
           <h4>${resultat.name}</h4>
           <div class="media">
-            <div class="media-left">
+            <div class="media-left" style="margin-right: 30px;">
               <p class="image is-32x32">
-                <img src="https://www.intel.sg/content/dam/www/public/apac/xa/en/images/monthly-webinar/icons-iot-16x9.png.rendition.intel.web.256.144.png" width="60" height="144">
+                <img src="https://www.researchnxt.com/wp-content/uploads/2016/06/icon-iot.png" width="60" height="144">
               </p>
             </div>
             <div class="media-content">
               <div class="content">
                 <p>
-                  ${resultat.description}<br>
-                  <strong>version ${resultat.version}, rating: ${resultat.rating} </strong>
+                  Type: <span style="color: black">${resultat.type}</span>, ip: <span style="color: black">${resultat.ip}</span><br>
                 </p>
               </div>
             </div>
-          <div class="media-right">
-             <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
           </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="column is-4">
+      <div class="box content">
+        <article class="post" v-for="newobject in newobjects">
+          <h4>${newobject.name}</h4>
+          <div class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  Wants to listen to <strong>${newobject.listens}</strong><br>
+                  Type: <span style="color: black">${newobject.type}</span>, ip: <span style="color: black">${newobject.ip}</span><br>
+                  <a href="" class="button is-danger" style="margin-top: 20px">Refuse</a><a href="" class="button is-success" style="margin-left: 190px; margin-top: 20px" @click="acceptButtonClicked(newobject)">Accept</a>
+                </p>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -105,58 +120,45 @@
 
   new Vue({
     delimiters: ['${', '}'],
-    el:'#availableApps',
+    el:'#myobjects',
 
     data: {
-      availableApps: [{{#each availableApps}}{name: "{{name}}", description:"{{description}}", version:"{{version}}", rating: "{{rating}}"},{{/each}}],
+      myobjects: [{{#each myobjects}}{name: "{{name}}", listens:"{{listens}}", type:"{{type}}", ip: "{{ip}}"},{{/each}}],
+      newobjects: [{{#each newobjects}}{name: "{{name}}", listens:"{{listens}}", type:"{{type}}", ip: "{{ip}}"},{{/each}}],
       recherche: "",
     },
 
     mounted: function() {
       socket.on('connect', function() {
+        console.log("Connected to server.")
       });
 
-      socket.on('searchApps', function(payload) { // le serveur renvoie true si le nom existe déjà
-        this.availableApps = payload;
+      socket.on('refreshNewObjects', function(payload) {
+        this.newobjects = payload;
+      }.bind(this));
+      socket.on('addRefreshNewObjects', function(payload) {
+        this.newobjects = payload;
       }.bind(this));
 
-      socket.on('appDownloaded', function(payload) {
-        alertify.log("Finished downloading "+payload);
+      socket.on('refreshMyObjects', function(payload) {
+        console.log("My objects", payload);
+        this.myobjects = payload;
       }.bind(this));
-
-      socket.on('addRefreshNewObjects', function() {
-        alertify.log("A new object requests validation");
-      });
-
-      socket.on('refreshStore', function(payload) {
-        this.myapps = payload;
-      }.bind(this));
-
     },
 
     computed: {
       resultatsRecherche:function() {
         if(this.recherche == "")
-          return this.availableApps;
-        return this.availableApps.filter(application => application.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0);
+          return this.myobjects;
+        return this.myobjects.filter(objet => (objet.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0 || objet.type.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0 || objet.listens.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0 || objet.ip.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0));
       }
     },
 
     methods: {
-      clickArticle: function(resultat) {
-        console.log(resultat);
-        alertify.confirm("Would you like to download "+resultat.name+" ?", function () {
-            socket.emit('downloadApp', resultat);
-
-            for(var i = 0; i < this.availableApps.length; i++) {
-              if(this.availableApps[i].name == resultat.name) {
-                this.availableApps.splice(i, 1);
-                break;
-              }
-            }
-        }.bind(this), function() {
-        });
-      }
+      acceptButtonClicked: function(resultat) {
+        socket.emit('acceptNewObject', resultat.name);
+        location.reload();
+      },
     }
-  })
+  });
 </script>

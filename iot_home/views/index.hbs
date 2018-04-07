@@ -33,6 +33,7 @@
   <div class="container">
     <div class="navbar-menu">
       <div class="navbar-start">
+        <a class="navbar-item" href="objects">My objects</a>
         <a class="navbar-item is-active" href="index">My applications</a>
         <a class="navbar-item" href="store">IOT Store</a>
       </div>
@@ -76,7 +77,10 @@
 </section>
 </div>
 
+<script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
 <script>
+    alertify.delay(3000);
 String.prototype.sansAccent = function(){
     var accent = [
         /[\300-\306]/g, /[\340-\346]/g, // A, a
@@ -96,6 +100,7 @@ String.prototype.sansAccent = function(){
 
     return str;
   }
+  var socket = io.connect('http://127.0.0.1:5000');
 
   new Vue({
     delimiters: ['${', '}'],
@@ -105,6 +110,13 @@ String.prototype.sansAccent = function(){
       myapps: [{{#each myapps}}{name: "{{name}}", description:"{{description}}", version:"{{version}}", rating: "{{rating}}"},{{/each}}],
       recherche: "",
     },
+
+    mounted: function() {
+      socket.on('addRefreshNewObjects', function() {
+        alertify.log("A new object requests validation");
+      });
+    },
+
 
     computed: {
       resultatsRecherche:function() {
