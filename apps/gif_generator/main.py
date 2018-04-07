@@ -1,8 +1,10 @@
 #! /usr/bin/env python3
 
 import sys
+import os
 from time import sleep
 from picamera import PiCamera, Color
+import datetime as dt
 
 def take_pictures(nb_images=5):
 	camera = PiCamera()
@@ -13,7 +15,6 @@ def take_pictures(nb_images=5):
 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	camera.start_preview()
-
 	image_number = 0
 	while image_number < int(nb_images):
 		sleep(1)
@@ -21,6 +22,11 @@ def take_pictures(nb_images=5):
 		camera.capture(image_name)
 		image_number += 1
 	camera.stop_preview()
+
+def generate_gif():
+	command_str = "convert -delay 100 -loop 0 image*.jpg animation.gif"
+	os.system(command_str)
+	return "./animation.gif"
 
 for argument in sys.argv[1::]:
 	parsed_arg = argument.split('=')
@@ -33,7 +39,8 @@ for argument in sys.argv[1::]:
 
 	if (arg=="take_pictures"):
 		take_pictures(value)
-		#generate_html(picture_path)
+		gif_path = generate_gif()
+		generate_html(gif_path)
 
 
 
