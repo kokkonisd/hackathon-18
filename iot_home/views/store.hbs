@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 <link rel="stylesheet" href="https://dansup.github.io/bulma-templates/css/forum.css">
 
-<div id="myapps">
+<div id="availableApps">
 <nav class="navbar is-white topNav">
   <div class="container">
     <div class="navbar-brand">
@@ -33,8 +33,8 @@
   <div class="container">
     <div class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item is-active" href="index">My applications</a>
-        <a class="navbar-item" href="store">IOT Store</a>
+        <a class="navbar-item" href="index">My applications</a>
+        <a class="navbar-item is-active" href="store">IOT Store</a>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
@@ -48,7 +48,7 @@
   <div class="columns">
     <div class="column is-9">
       <div class="box content">
-        <article class="post" v-for="resultat in resultatsRecherche">
+        <article class="post" v-for="resultat in resultatsRecherche" @click="clickArticle(resultat)">
           <h4>${resultat.name}</h4>
           <div class="media">
             <div class="media-left">
@@ -76,8 +76,11 @@
 </section>
 </div>
 
+<script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
 <script>
-String.prototype.sansAccent = function(){
+  alertify.delay(3000);
+  String.prototype.sansAccent = function(){
     var accent = [
         /[\300-\306]/g, /[\340-\346]/g, // A, a
         /[\310-\313]/g, /[\350-\353]/g, // E, e
@@ -97,21 +100,60 @@ String.prototype.sansAccent = function(){
     return str;
   }
 
+  var socket = io.connect('http://127.0.0.1:5000');
+
   new Vue({
     delimiters: ['${', '}'],
-    el:'#myapps',
+    el:'#availableApps',
 
     data: {
-      myapps: [{{#each myapps}}{name: "{{name}}", description:"{{description}}", version:"{{version}}", rating: "{{rating}}"},{{/each}}],
+      availableApps: [{{#each availableApps}}{name: "{{name}}", description:"{{description}}", version:"{{version}}", rating: "{{rating}}"},{{/each}}],
       recherche: "",
+    },
+
+    mounted: function() {
+      socket.on('connect', function() {
+        console.log("Connected to server.")
+      });
+
+      socket.on('searchApps', function(payload) { // le serveur renvoie true si le nom existe déjà
+        this.availableApps = payload;
+      }.bind(this));
+
+      socket.on('appDownloaded', function(payload) {
+        alertify.log("Finished downloading "+payload);
+        console.log("Download logged.")
+      }.bind(this));
+
+      socket.on('refreshStore', function(payload) {
+        this.myapps = payload;
+      }.bind(this));
+
     },
 
     computed: {
       resultatsRecherche:function() {
-          if(this.recherche == "")
-            return this.myapps;
-          return this.myapps.filter(application => application.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0);
-        }
+        if(this.recherche == "")
+          return this.availableApps;
+        return this.availableApps.filter(application => application.name.toLowerCase().sansAccent().indexOf(this.recherche.toLowerCase().sansAccent())>=0);
+      }
+    },
+
+    methods: {
+      clickArticle: function(resultat) {
+        console.log(resultat);
+        alertify.confirm("Would you like to download "+resultat.name+" ?", function () {
+            socket.emit('downloadApp', resultat);
+
+            for(var i = 0; i < this.availableApps.length; i++) {
+              if(this.availableApps[i].name == resultat.name) {
+                this.availableApps.splice(i, 1);
+                break;
+              }
+            }
+        }.bind(this), function() {
+        });
+      }
     }
   })
 </script>

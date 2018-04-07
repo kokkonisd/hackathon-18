@@ -1,21 +1,46 @@
-module.exports = function(app, appManager) {
+module.exports = function(app, myapps, utils) {
 
-  app.get('/search/', function(req, res) {
-    var results = appManager.search(req.query.name);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(results));
+  function getLogin(req, res) {
+    res.render('login.hbs');
+  };
+
+  app.get('/', function(req, res) {
+    getLogin(req, res);
   });
 
-  app.get('/download/', function(req, res) {
-    if(!appManager.exists(req.query.name)) {
-      console.log("Does not exist.");
-      res.status(404).send('Not found');
-      return;
+  app.post('/index', function(req, res) {
+    req.session.login = req.body.login;
+    res.render('index.hbs', {username: req.session.login, myapps: myapps});
+  });
+
+  app.get('/index', function(req, res) {
+    if(req.session.login == undefined)
+      res.render('index.hbs', {username: "Not logged in", myapps: myapps});
+    else
+      res.render('index.hbs', {username: req.session.login, myapps: myapps});
+  });
+
+  app.post('/store', function(req, res) {
+    req.session.login = req.body.login;
+    var callback = function(body) {
+      res.render('store.hbs', {username: req.session.login, availableApps: body});
     }
-
-    console.log("Want to download: " + req.query.name);
-
-    var file = 'apps/' + req.query.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(" ", "_") + '.zip';
-    res.download(file);
+    utils.searchApps("", callback);
   });
+
+  app.get('/store', function(req, res) {
+    if(req.session.login == undefined) {
+      var callback = function(body) {
+        res.render('store.hbs', {username: "Not logged in", availableApps: body});
+      }
+      utils.searchApps("", callback);
+    }
+    else {
+      var callback = function(body) {
+        res.render('store.hbs', {username: req.session.login, availableApps: body});
+      }
+      utils.searchApps("", callback);
+    }
+  });
+
 }
