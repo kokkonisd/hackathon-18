@@ -14,83 +14,136 @@ def get_icon(weather):
         return icon[weather]
 
 def generate_html(city_list):
-    html=""""<!DOCTYPE html>
-            <html>
-            <head>
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" rel="stylesheet" type="text/css" />
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    html="""<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        function loopFlash() {
-                            $("#bolt").animate({
-                                color: "rgb(0, 0, 0)",
-                            }, 500).delay(3000);
-                            $("#bolt").animate({
-                                color: "rgb(255, 255, 255)",
-                            }, 500, 'linear', function() {
-                                loopFlash();
-                            });
-                        }
-                        loopFlash();
-                    });
-                </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function loopFlash() {
+                $("#bolt").animate({
+                    color: "rgb(0, 0, 0)",
+                }, 500).delay(3000);
+                $("#bolt").animate({
+                    color: "rgb(255, 255, 255)",
+                }, 500, 'linear', function() {
+                    loopFlash();
+                });
+            }
 
-                <style type="text/css">
-                    body {
-                        background-color: rgb(79, 94, 117);
-                    }
+            $('.submitCity').attr('disabled',true);
+            $('#cityName').keyup(function(){
+                if($(this).val().length !=0)
+                    $('.submitCity').attr('disabled', false);            
+                else
+                    $('.submitCity').attr('disabled',true);
+            });
 
-                    .card {
-                        background-color: rgba(255, 255, 255, 0.3);
-                    }
+            $(".city").mouseenter(function() {
+                $(this).children(".delete").css('opacity', 1);
+            });
+            $(".city").mouseleave(function() {
+                $(this).children(".delete").css('opacity', 0);
+            });
 
-                    #bolt {
-                        font-size: 32pt;
-                    }
+            $(".delete").click(function() {
+                var cityName = $(this).parent().children(".city-name")[0].innerHTML;
+                console.log("delete " + cityName);
+            });
 
-                    hr {
-                        border-style: dashed;
-                        border-width: 1.5pt;
-                        border-top-width: 0px;
-                    }
+            $(".submitCity").click(function() {
+                var cityName = $("#cityName").val();
+                console.log("add " + cityName);
+            });
 
-                    .city-name {
-                        font-size: 24pt;
-                    }
+            loopFlash();
+        });
+    </script>
 
-                    .weather-items {
-                        font-size: 16pt;
-                    }
+    <style type="text/css">
+        body {
+            background-color: rgb(79, 94, 117);
+        }
 
-                    ul {
-                        list-style-type: none;
-                        padding: 0;
-                        margin: 0;
-                    }
+        .card {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
 
-                    .city {
-                        padding-top: 0.5%;
-                        padding-bottom: 1%;
-                    }
-                </style>
+        #bolt {
+            font-size: 32pt;
+        }
 
-                <title>Weather App</title>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="row">
-                        <div class="text-center col">
-                            <div class="display-3">Weather App</div>
-                            <i id="bolt" class="fa fa-bolt"></i>
-                        </div>
-                    </div>
+        hr {
+            border-style: dashed;
+            border-width: 1.5pt;
+            border-top-width: 0px;
+        }
 
-                    <hr>"""
+        .city-name {
+            font-size: 24pt;
+        }
+
+        .weather-items {
+            font-size: 16pt;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .city {
+            padding-top: 0.5%;
+            padding-bottom: 1%;
+        }
+
+        .add {
+            padding-top: 1%;
+            padding-bottom: 2%;
+        }
+
+        .delete {
+            text-align: right;
+            margin: auto;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="text-center col">
+                <div class="display-3">Weather App</div>
+                <i id="bolt" class="fa fa-bolt"></i>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
+                <div class="city-name lead text-center">Paris</div>
+                <br>
+                <ul class="weather-items">
+                    <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 12&deg;C</div></li>
+                    <li><div class="text-center"><i class="fa fa-sun-o"></i> Sunny</div></li>
+                </ul>
+                <br>
+                <i class="fa fa-times delete"></i>
+            </div>
+        </div>
+
+        <br>"""
 
 
     
@@ -110,8 +163,7 @@ def generate_html(city_list):
                 </div>
                 <br>"""
 
-    html+="""<hr>
-            </div>
+    html+="""</div>
             </body>
             </html>"""
 
