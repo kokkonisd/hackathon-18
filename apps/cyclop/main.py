@@ -13,10 +13,8 @@ for argument in sys.argv[1::]:
         else:
             value=None
 
-        if (arg=="html"):
-            generate_html()
-        elif (arg=="take_picture"):
-            take_picture(path=value)
-
+        if (arg=="take_picture"):
+            picture_path = take_picture(name=value)
+	    generate_html(picture_path)
 sys.stdout.flush()
 
