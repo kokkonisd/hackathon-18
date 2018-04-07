@@ -134,8 +134,6 @@ def generate_html(city_list):
     
 
     for city in city_list:
-        #html+="<div>"+city["name"] +" : "+city["weather"][0]["description"]+"<div>"
-        print(city)
         html+="""<div class="row">
                     <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
                         <div class="city-name lead text-center">Paris</div>
@@ -144,9 +142,12 @@ def generate_html(city_list):
                             <li><div class="text-center"><i class="fa fa-thermometer-"""+get_thermometer(city["main"]["temp"]-273.15)+"""></i>"""+ str(city["main"]["temp"]-273.15) + """&deg;C</div></li>
                             <li><div class="text-center"><i class="fa fa-"""+get_icon(city["weather"][0]["main"])+"""></i> """+ city["weather"][0]["main"] +"""</div></li>
                         </ul>
-                    </div>
+                    <br>
+                    <i class="fa fa-times delete"></i>
                 </div>
-                <br>"""
+            </div>
+
+            <br>"""
 
     html+="""</div>
             </body>
