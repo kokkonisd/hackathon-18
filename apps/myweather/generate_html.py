@@ -13,7 +13,7 @@ def get_icon(weather):
     else:
         return icon[weather]
 
-def generate_html(city_list):
+def generate_html(city_list, path):
     html="""<!DOCTYPE html>
 <html>
 <head>
@@ -154,6 +154,6 @@ def generate_html(city_list):
             </body>
             </html>"""
 
-    file=open("vue.html", "w")
+    file=open(path + "vue.html", "w")
     file.write(html)
     file.close

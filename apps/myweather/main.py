@@ -17,7 +17,7 @@ def render():
     for city in l:
         if (city!=""):
             cities.append(request(city))
-    generate_html(cities)
+    generate_html(cities, path)
     file.close()
 
 for data in sys.argv[1::]:
