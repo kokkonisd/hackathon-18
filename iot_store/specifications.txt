@@ -1,0 +1,19 @@
+Lister les applications
+
+Télécharger une application
+
+#
+# Structures
+#
+
+application
+  - name
+  - description
+  - grade
+  - version
+  Characters $ and # forbidden
+
+
+// TODO
+
+Ajouter dynamiquement les nouvelles applications.
