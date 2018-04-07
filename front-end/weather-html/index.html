@@ -38,12 +38,16 @@
 
             $(".delete").click(function() {
                 var cityName = $(this).parent().children(".city-name")[0].innerHTML;
-                console.log("delete " + cityName);
+                $.get("/run/myweather/remove="+cityName.toLowerCase());
+                $.get("/apps/myweather/");
+                location.reload();
             });
 
             $(".submitCity").click(function() {
                 var cityName = $("#cityName").val();
-                console.log("add " + cityName);
+                $.get("/run/myweather/add="+cityName.toLowerCase());
+                $.get("/apps/myweather/");
+                location.reload();
             });
 
             loopFlash();

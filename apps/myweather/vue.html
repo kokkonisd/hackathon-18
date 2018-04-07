@@ -38,12 +38,16 @@
 
             $(".delete").click(function() {
                 var cityName = $(this).parent().children(".city-name")[0].innerHTML;
-                console.log("delete " + cityName);
+                $.get("/run/myweather/remove="+cityName.toLowerCase());
+                $.get("/apps/myweather/");
+                location.reload();
             });
 
             $(".submitCity").click(function() {
                 var cityName = $("#cityName").val();
-                console.log("add " + cityName);
+                $.get("/run/myweather/add="+cityName.toLowerCase());
+                $.get("/apps/myweather/");
+                location.reload();
             });
 
             loopFlash();
@@ -114,25 +118,11 @@
 
         <hr><div class="row">
                     <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">Bristol</div>
-                        <br>
-                        <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-empty></i>8.02&deg;C</div></li>
-                            <li><div class="text-center"><i class="fa fa-cloud></i> Clouds</div></li>
-                        </ul>
-                    <br>
-                    <i class="fa fa-times delete"></i>
-                </div>
-            </div>
-
-            <br>
-            <div class="row">
-                    <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
                         <div class="city-name lead text-center">Paris</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quater></i>13.99&deg;C</div></li>
-                            <li><div class="text-center"><i class="fa fa-sun-o></i> Clear</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 13.62&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-sun-o"></i> Clear</div></li>
                         </ul>
                     <br>
                     <i class="fa fa-times delete"></i>
@@ -142,11 +132,11 @@
             <br>
             <div class="row">
                     <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">London</div>
+                        <div class="city-name lead text-center">Budapest</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quater></i>10.33&deg;C</div></li>
-                            <li><div class="text-center"><i class="fa fa-umbrella></i> Rain</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-empty"></i> 4.0&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-cloud"></i> Fog</div></li>
                         </ul>
                     <br>
                     <i class="fa fa-times delete"></i>
@@ -154,34 +144,18 @@
             </div>
 
             <br>
-            <div class="row">
-                    <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">Arcachon</div>
-                        <br>
-                        <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quater></i>11.54&deg;C</div></li>
-                            <li><div class="text-center"><i class="fa fa-umbrella></i> Rain</div></li>
-                        </ul>
-                    <br>
-                    <i class="fa fa-times delete"></i>
+            <hr>
+
+        <div class="row">
+            <div class="add col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto text-center">
+                <div class="input-group">
+                    <input type="text" id="cityName" class="form-control">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary submitCity" type="button">Add city</button>
+                    </div>
                 </div>
             </div>
-
-            <br>
-            <div class="row">
-                    <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">Bordeaux</div>
-                        <br>
-                        <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quater></i>11.44&deg;C</div></li>
-                            <li><div class="text-center"><i class="fa fa-sun-o></i> Drizzle</div></li>
-                        </ul>
-                    <br>
-                    <i class="fa fa-times delete"></i>
-                </div>
-            </div>
-
-            <br>
-            </div>
-            </body>
-            </html>
+        </div>
+    </div>
+</body>
+</html>

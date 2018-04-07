@@ -1,1 +1,1 @@
-bristol,paris,london,arcachon,bordeaux,
+paris,budapest,
