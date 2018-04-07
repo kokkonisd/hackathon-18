@@ -7,6 +7,19 @@ from generate_html import generate_html
 from request import request
 import sys
 
+path=""
+
+def render():
+    file=open(path+"cities.txt","r")
+    l=file.read().split(',')
+    cities=[]
+    print(l)
+    for city in l:
+        if (city!=""):
+            cities.append(request(city))
+    generate_html(cities)
+    file.close()
+
 for data in sys.argv[1::]:
     parsed_data = data.split('=')
     if (len(parsed_data) >= 1):
@@ -16,6 +29,26 @@ for data in sys.argv[1::]:
         else:
             value=None
 
-        
+        if (arg=="html"):
+            render()
 
-sys.stdout.flush()
+        if (arg=="add"):
+            file=open(path+"cities.txt","a")
+            file.write(value+",")
+            file.close()
+            render()
+
+        if (arg=="remove"):
+            file=open(path+"cities.txt","r")
+            l=file.read().split(',')
+            file.close()
+            file=open(path+"cities.txt","w")
+            new_text=""
+            for city in l:
+                if (city!=value and city!=""):
+                    new_text+=city+","
+            file.write(new_text)
+            file.close()
+            render()
+        
+    
