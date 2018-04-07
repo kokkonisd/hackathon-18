@@ -1,9 +1,4 @@
-import os
-import re
-
-def generate_html():
-    
-    html = """<!DOCTYPE html>
+<!DOCTYPE html>
             <html>
             <head>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -50,37 +45,37 @@ def generate_html():
                 </style>
 
                 <title>Enceinte Bluetooth IoT</title>
-            </head>"""
-    html += """<body>
+            </head><body>
             <div class="container">
                 <div class="row">
                     <div class="display-3 text-center col">Enceinte Bluetooth IoT</div>
                 </div>
                 <hr>
-                <div class="card music-list">"""
-
-    working_directory = os.getcwd()
-    files = os.listdir("../apps/mozart/musiques")
-
-    pattern = re.compile("^[a-zA-Z]+.mp3$")
-
-    for f in files:
-        if (pattern.match(f)):
-            html+="""<div class="music">
+                <div class="card music-list"><div class="music">
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="play col-2"><i class="fa fa-play-circle"></i></div>
-                            <div class="music-title lead col-8">"""+f+"""</div>
+                            <div class="music-title lead col-8">TC.mp3</div>
                         </div>
-                    </div>"""
-
-    html+="""</div>
+                    </div><div class="music">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="play col-2"><i class="fa fa-play-circle"></i></div>
+                            <div class="music-title lead col-8">solace.mp3</div>
+                        </div>
+                    </div><div class="music">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="play col-2"><i class="fa fa-play-circle"></i></div>
+                            <div class="music-title lead col-8">Ipanema.mp3</div>
+                        </div>
+                    </div><div class="music">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="play col-2"><i class="fa fa-play-circle"></i></div>
+                            <div class="music-title lead col-8">antoni.mp3</div>
+                        </div>
+                    </div></div>
             </div>
         </body>
-        </html>"""
-
-    #print (html)
-
-    file=open("../apps/mozart/vue.html", "w")
-    file.write(html)
-    file.close
+        </html>
