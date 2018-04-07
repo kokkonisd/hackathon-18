@@ -1,0 +1,11 @@
+{
+    "MyApp" : {
+        "name" : "MyApp",
+        "version" : "0.0.1"
+    },
+
+    "MyOtherApp" : {
+        "name" : "MyOtherApp",
+        "version" : "2.3.5"
+    }
+}
