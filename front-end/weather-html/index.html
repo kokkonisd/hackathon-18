@@ -20,6 +20,32 @@
                     loopFlash();
                 });
             }
+
+            $('.submitCity').attr('disabled',true);
+            $('#cityName').keyup(function(){
+                if($(this).val().length !=0)
+                    $('.submitCity').attr('disabled', false);            
+                else
+                    $('.submitCity').attr('disabled',true);
+            });
+
+            $(".city").mouseenter(function() {
+                $(this).children(".delete").css('opacity', 1);
+            });
+            $(".city").mouseleave(function() {
+                $(this).children(".delete").css('opacity', 0);
+            });
+
+            $(".delete").click(function() {
+                var cityName = $(this).parent().children(".city-name")[0].innerHTML;
+                console.log("delete " + cityName);
+            });
+
+            $(".submitCity").click(function() {
+                var cityName = $("#cityName").val();
+                console.log("add " + cityName);
+            });
+
             loopFlash();
         });
     </script>
@@ -61,6 +87,18 @@
             padding-top: 0.5%;
             padding-bottom: 1%;
         }
+
+        .add {
+            padding-top: 1%;
+            padding-bottom: 2%;
+        }
+
+        .delete {
+            text-align: right;
+            margin: auto;
+            opacity: 0;
+            cursor: pointer;
+        }
     </style>
 
     <title>Weather App</title>
@@ -84,6 +122,8 @@
                     <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 12&deg;C</div></li>
                     <li><div class="text-center"><i class="fa fa-sun-o"></i> Sunny</div></li>
                 </ul>
+                <br>
+                <i class="fa fa-times delete"></i>
             </div>
         </div>
 
@@ -97,6 +137,8 @@
                     <li><div class="text-center"><i class="fa fa-thermometer-full"></i> 25&deg;C</div></li>
                     <li><div class="text-center"><i class="fa fa-cloud"></i> Cloudy</div></li>
                 </ul>
+                <br>
+                <i class="fa fa-times delete"></i>
             </div>
         </div>
 
@@ -110,9 +152,22 @@
                     <li><div class="text-center"><i class="fa fa-thermometer-empty"></i> -2&deg;C</div></li>
                     <li><div class="text-center"><i class="fa fa-umbrella"></i> Rainy</div></li>
                 </ul>
+                <br>
+                <i class="fa fa-times delete"></i>
             </div>
         </div>
         <hr>
+
+        <div class="row">
+            <div class="add col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto text-center">
+                <div class="input-group">
+                    <input type="text" id="cityName" class="form-control">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary submitCity" type="button">Add city</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
