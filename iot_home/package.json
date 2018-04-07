@@ -1,0 +1,15 @@
+{
+  "name": "iot_home",
+  "version": "0.0.1",
+  "description": "Home server",
+  "main": "home.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node home.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "npm": "^5.8.0"
+  }
+}
