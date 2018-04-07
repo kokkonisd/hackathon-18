@@ -1,5 +1,5 @@
 def generate_html(image_path):
-    
+    f = open('vue.html', 'w')
     html = """<!DOCTYPE html>
 <html>
 <body>
@@ -16,4 +16,5 @@ def generate_html(image_path):
 </body>
 </html>
 """
-    print (html)
+    f.write(html)
+    f.close()
