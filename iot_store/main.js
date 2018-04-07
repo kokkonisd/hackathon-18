@@ -1,27 +1,36 @@
 var express = require('express');
-var hbs = require('express-handlebars');
-var session = require('express-session');
 var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').createServer(app);
 var fs = require('fs');
-var io = require('socket.io')(server);
 
-fs.readFile("liste_pipots.txt", 'utf-8', function(err, data) {
-	if(err) throw err;
-	var pipots = data.split('\r\n');
-	var sessionMiddleware = session({
-    secret: "WM7MRjA7Q6D7yMYSfxgMP7XUz6hPthDvMMEMrTK6XXvVNelvpIpLYv5RCou7t0Ot",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {}
-  });
+function parseApps(appList) {
+	results = [];
 
-	io.use(function(socket, next) {
-			sessionMiddleware(socket.request, socket.request.res, next);
+	appList.forEach(function(appEntry) {
+		var nextApp = {};
+		var substrings = appEntry.split('#');
+		nextApp.name = substrings[0];
+		nextApp.description = substrings[1];
+		nextApp.grade = substrings[2];
+		nextApp.version = substrings[3];
+		for(attribut in nextApp) {
+			nextApp[attribut] = nextApp[attribut].replace('\r\n', '');
+		}
+		nextApp.grade = parseFloat(nextApp.grade);
+		nextApp.version = parseFloat(nextApp.version);
+
+		results.push(nextApp);
 	});
 
-  app.use(sessionMiddleware);
+	return results;
+};
+
+fs.readFile("apps/app_list.txt", 'utf-8', function(err, data) {
+	if(err) throw err;
+	var fileContents = data.split('$');
+
+	appList = parseApps(fileContents);
 
   app.use( bodyParser.json() );       // to support JSON-encoded bodies
   app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -37,15 +46,10 @@ fs.readFile("liste_pipots.txt", 'utf-8', function(err, data) {
     }
     return -1;
   }
-
-  pipots.sort();
-
-  var externalRoutes = require('./js/routes')(app, pipots);
-  var communicator = require('./js/communicator')(champions, io);
+	var appManager = require('./js/appManager')(appList);
+  var externalRoutes = require('./js/routes')(app, appManager);
 
   app.use(express.static(__dirname + '/node_modules'));
-  app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutDir: __dirname + 'views/layouts/'}));
-  app.set('view engine', 'hbs')
 
   server.listen(8080);
 });
