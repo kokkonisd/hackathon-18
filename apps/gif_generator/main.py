@@ -6,13 +6,13 @@ from picamera import PiCamera, Color
 
 def take_pictures(nb_images=5):
 	camera = PiCamera()
-        camera.rotation = 180
-        camera.annotate_text_size = 92
-        camera.annotate_foreground = Color(r=255, g=255, b=255)
-        camera.annotate_background = Color(r=0, g=0, b=0)       
-        camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    camera.rotation = 180
+    camera.annotate_text_size = 92
+    camera.annotate_foreground = Color(r=255, g=255, b=255)
+    camera.annotate_background = Color(r=0, g=0, b=0)       
+    camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        camera.start_preview()
+    camera.start_preview()
 
 	image_number = 0
 	while image_number < int(nb_images):
