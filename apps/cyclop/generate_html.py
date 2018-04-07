@@ -1,19 +1,19 @@
 def generate_html(image_path):
     
     html = """<!DOCTYPE html>
-            <html>
-            <body>
+<html>
+<body>
 
-            <h1>Cyclapp</h1>
+<h1>Cyclapp</h1>
 
-            <img src='"""
+<img src='"""
 
     html += image_path
 
     html += """' alt="Cyclapp image" style="width:500px">
 
 
-            </body>
-            </html>
-            """
+</body>
+</html>
+"""
     print (html)
