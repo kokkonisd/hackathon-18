@@ -4,6 +4,7 @@ import sys
 import os
 from time import sleep
 from picamera import PiCamera, Color
+import datetime as dt
 
 def take_pictures(nb_images=5):
 	camera = PiCamera()
