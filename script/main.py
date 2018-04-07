@@ -17,3 +17,5 @@ for data in sys.argv[1::]:
             generate_html()
         elif (arg=="play"):
             play(value)
+
+sys.stdout.flush()
