@@ -6,7 +6,6 @@ import sys
 
 generate_html()
 
-print(kwargs.get('nom'))
 
     
 
