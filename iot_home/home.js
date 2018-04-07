@@ -7,16 +7,18 @@ var bodyParser = require('body-parser');
 // initialize the app
 var app = express();
 // tell the app where to listen to
-var listen_port = 8080;
-var server = app.listen(listen_port, listening);
+var listen_port = 5000;
+//var server = app.listen(listen_port, listening);
 // a simple callback to check that everything's working
+/*
 function listening() {
     console.log("[Listening at port " + listen_port + "]");
 }
+*/
 // let's use some static html as the frontpage
 //app.use(express.static('public'));
 
-
+/*
 app.use(bodyParser.urlencoded({ extended : false} ));
 app.use(bodyParser.json());
 
@@ -31,23 +33,27 @@ function listApps(request, response) {
     console.log(reply);
     response.send(reply);
 }
-
+*/
 
 function searchApps (name) {
-    http.get(`http://localhost:8080/search/${name}`, getAppList);
-}
-
-function getAppList (data) {
-    console.log(`====\nHere's the app list :\n----`);
-    console.log(data);
-    console.log("====");
+    http.get(`http://localhost:8080/search/?name=${name}`, res => {
+        res.setEncoding("utf8");
+        var body = "";
+        res.on("data", data => {
+            body += data;
+        });
+        res.on("end", () => {
+            body = JSON.parse(body);
+            console.log(body);
+        });
+    });
 }
 
 function downloadApp(name) {
     var file = fs.createWriteStream("apps/app.js");
-    var request = http.get(`download/${name}`, function(response) {
+    var request = http.get(`download/?name=${name}`, function(response) {
         response.pipe(file);
     });
 }
 
-searchApps("test");
+searchApps("enceinte");
