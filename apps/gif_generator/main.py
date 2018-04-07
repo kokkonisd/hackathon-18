@@ -5,7 +5,7 @@ from time import sleep
 from picamera import PiCamera, Color
 
 def take_pictures(nb_images=5):
-	camera = PiCamera()
+    camera = PiCamera()
     camera.rotation = 180
     camera.annotate_text_size = 92
     camera.annotate_foreground = Color(r=255, g=255, b=255)
@@ -13,14 +13,13 @@ def take_pictures(nb_images=5):
     camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     camera.start_preview()
-
-	image_number = 0
-	while image_number < int(nb_images):
-		sleep(1)
-		image_name = 'image{0:04d}.jpg'.format(image_number)
-		camera.capture(image_name)
-		image_number += 1
-	camera.stop_preview()
+    image_number = 0
+    while image_number < int(nb_images):
+        sleep(1)
+        image_name = 'image{0:04d}.jpg'.format(image_number)
+	camera.capture(image_name)
+        image_number += 1
+    camera.stop_preview()
 
 for argument in sys.argv[1::]:
 	parsed_arg = argument.split('=')
