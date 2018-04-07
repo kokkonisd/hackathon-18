@@ -8,22 +8,21 @@ def generate_html():
             <head>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" rel="stylesheet" type="text/css" />
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-                <script type="text/javascript" src="libraries/jquery.min.js"></script>
-                <script type="text/javascript" src="libraries/jquery-ui.min.js"></script>
-                <script type="text/javascript" src="libraries/bootstrap.min.js"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
                 <script type="text/javascript">
-                    setTimeout(function(){
-                        console.log("I have loaded!");
+                    $(document).ready(function() {
                         $(".play").css("cursor", "pointer");
 
                         $(".play").click(function () {
                             var name = $(this).next().html();
-                            console.log(name + " clicked");
+                            $.get("/run/mozart/play=" + name);
                             $(".music").removeClass("playing");
                             $(this).parent().parent().addClass("playing");
                         });
-                    }, 2000);
+                    });
                 </script>
 
                 <style type="text/css">
