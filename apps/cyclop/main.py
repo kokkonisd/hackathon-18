@@ -15,6 +15,6 @@ for argument in sys.argv[1::]:
 
         if (arg=="take_picture"):
             picture_path = take_picture(name=value)
-	    generate_html(picture_path)
+	    	generate_html(picture_path)
 sys.stdout.flush()
 
