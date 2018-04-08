@@ -1,7 +1,7 @@
 import os
 import re
 
-path= "/apps/mozart/"
+path= "apps/mozart/"
 
 def generate_html():
     

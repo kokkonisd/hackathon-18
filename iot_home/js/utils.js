@@ -64,9 +64,7 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     },
 
     downloadApp: function(application, callback) {
-      console.log(application.name);
         var appName = application.name.toLowerCase().replace(' ', '');
-        console.log(appName);
         var file = fs.createWriteStream("apps/"+appName+".zip");
         file.on('open', function() {
           var request = http.get(`http://`+ipmodule.address()+`:8080/download/?name=${appName}`, function(response) {
