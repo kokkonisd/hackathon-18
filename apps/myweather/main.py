@@ -7,12 +7,13 @@ from generate_html import generate_html
 from request import request
 import sys
 
-path="../apps/myweather/"
+path="apps/myweather/"
 
 def render():
     file=open(path+"cities.txt","r")
     l=file.read().split(',')
     cities=[]
+    print(l)
     for city in l:
         if (city!=""):
             cities.append(request(city))
