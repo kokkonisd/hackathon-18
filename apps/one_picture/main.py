@@ -17,12 +17,14 @@ for argument in sys.argv[1::]:
 		value=None
 
 	if (arg=="take_picture"):
-		r = requests.get(server_address + "one_picture/"+str(value))
+		r = requests.get(server_address + "one_picture/temp.jpg")
 		image_link = server_address + r.text
 		generate_html(image_link)
-sys.stdout.flush()
 
-
+	if (arg=="take_gif"):
+	r = requests.get(server_address + "one_gif/3")
+	image_link = server_address + r.text
+	generate_html(image_link)
 
 
 

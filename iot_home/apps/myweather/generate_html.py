@@ -153,7 +153,7 @@ def generate_html(city_list, path):
                         <div class="city-name lead text-center">'''+city["name"]+'''</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-'''+get_thermometer(city["main"]["temp"]-273.15)+'''"></i> '''+ str(city["main"]["temp"]-273.15) + '''&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-'''+get_thermometer(city["main"]["temp"]-273.15)+'''"></i> '''+ str(0.1*int(10*(city["main"]["temp"]-273.15))) + '''&deg;C</div></li>
                             <li><div class="text-center"><i class="fa fa-'''+get_icon(city["weather"][0]["main"])+'''"></i> '''+ city["weather"][0]["main"] +'''</div></li>
                         </ul>
                     <br>

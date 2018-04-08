@@ -1,1 +1,1 @@
-tokyo,tokyo,kyoto,athens,paris,
+paris,amsterdam,brussels,kyoto

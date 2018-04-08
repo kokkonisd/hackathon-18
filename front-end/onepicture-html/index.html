@@ -10,7 +10,13 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
+            $(".pic").click(function() {
+                $.get("/run/myweather/takepicture=pic.png", function() {
+                    $.get("/apps/onepicture/", function() {
+                        location.reload();
+                    });
+                });
+            });
         });
     </script>
 
@@ -50,6 +56,13 @@
         <div class="card col-8 mx-auto">
             <div class="image mx-auto"><img class="img-responsive center-block" src="http://via.placeholder.com/1000x1000"></div>
         </div>
+    </div>
+
+    <br>
+
+    <div class="buttons text-center mx-auto">
+        <button type="submit" class="btn btn-primary pic">Take a picture</button>
+        <button type="submit" class="btn btn-primary gif">Make a gif</button>
     </div>
 </body>
 </html>
