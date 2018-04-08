@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Error: ENOENT: no such file or directory, stat &#39;/Users/kokkonisd/hackathon-18/iot_store/apps/onepicture.zip&#39;</pre>
+</body>
+</html>
