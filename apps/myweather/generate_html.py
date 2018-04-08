@@ -54,16 +54,26 @@ def generate_html(city_list, path):
 
             $(".delete").click(function() {
                 var cityName = $(this).parent().children(".city-name")[0].innerHTML;
-                $.get("/run/myweather/remove="+cityName.toLowerCase());
-                $.get("/apps/myweather/");
-                location.reload();
+                $.get("/run/myweather/remove="+cityName.toLowerCase(), function() {
+                    $.get("/apps/myweather/", function() {
+                        location.reload();
+                    });
+                });
             });
 
             $(".submitCity").click(function() {
                 var cityName = $("#cityName").val();
-                $.get("/run/myweather/add="+cityName.toLowerCase());
-                $.get("/apps/myweather/");
-                location.reload();
+                $.get("/run/myweather/add="+cityName.toLowerCase(), function() {
+                    $.get("/apps/myweather/", function() {
+                        location.reload();
+                    });
+                });
+            });
+
+            $("#cityName").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    $(".submitCity").click();
+                }
             });
 
             loopFlash();
@@ -143,7 +153,7 @@ def generate_html(city_list, path):
                         <div class="city-name lead text-center">'''+city["name"]+'''</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-'''+get_thermometer(city["main"]["temp"]-273.15)+'''"></i> '''+ str(city["main"]["temp"]-273.15) + '''&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-'''+get_thermometer(city["main"]["temp"]-273.15)+'''"></i> '''+ str(0.1*int(10*(city["main"]["temp"]-273.15))) + '''&deg;C</div></li>
                             <li><div class="text-center"><i class="fa fa-'''+get_icon(city["weather"][0]["main"])+'''"></i> '''+ city["weather"][0]["main"] +'''</div></li>
                         </ul>
                     <br>
