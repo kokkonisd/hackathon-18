@@ -2,7 +2,7 @@ from picamera import PiCamera, Color
 from time import sleep
 import datetime as dt
 import numpy as np
-
+import os
 
 from flask import request
 from flask import Flask, url_for
