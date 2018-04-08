@@ -26,33 +26,33 @@ def take_picture(name='image.jpg'):
 	
 	return path + name
 
-def take_gif(number_images):
-	#path='/home/pi/Desktop/'
+# def take_gif(number_images):
+# 	#path='/home/pi/Desktop/'
 
-	unique_id = ''.join([str(np.random.randint(10)) for i in range (20)])
+# 	unique_id = ''.join([str(np.random.randint(10)) for i in range (20)])
 
-	path = "static/" + unique_id
-	camera = PiCamera()
-	camera.rotation = 180
-	camera.annotate_text_size = 92
-	camera.annotate_foreground = Color(r=255, g=255, b=255)
-	camera.annotate_background = Color(r=0, g=0, b=0)	
-	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+# 	path = "static/" + unique_id
+# 	camera = PiCamera()
+# 	camera.rotation = 180
+# 	camera.annotate_text_size = 92
+# 	camera.annotate_foreground = Color(r=255, g=255, b=255)
+# 	camera.annotate_background = Color(r=0, g=0, b=0)	
+# 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-	camera.start_preview()
+# 	camera.start_preview()
 	
-	for ID in range(number_images):
-		sleep(1)
-		image_name = 'image{0:04d}.jpg'.format(ID)
-		camera.capture(path + image_name)
+# 	for ID in range(number_images):
+# 		sleep(1)
+# 		image_name = 'image{0:04d}.jpg'.format(ID)
+# 		camera.capture(path + image_name)
 	
-	camera.stop_preview()
+# 	camera.stop_preview()
 	
-	gif_name = path + "animation.gif"
-	command_str = "convert -delay 50 -loop 0  -treedepth 4 " + path + "image*.jpg " + gif_name
-	os.system(command_str)
+# 	gif_name = path + "animation.gif"
+# 	command_str = "convert -delay 50 -loop 0  -treedepth 4 " + path + "image*.jpg " + gif_name
+# 	os.system(command_str)
 
-	return gif_name
+# 	return gif_name
 
 
 app = Flask(__name__)
@@ -61,7 +61,7 @@ def gif(name_image):
 	if request.method == 'GET':
 		return take_picture(name_image)
 
-@app.route('/one_gif/<number_images>', methods = ['GET'])
-def gif(number_images):
-	if request.method == 'GET':
-		return take_gif(number_images)
+# @app.route('/one_gif/<number_images>', methods = ['GET'])
+# def gif(number_images):
+# 	if request.method == 'GET':
+# 		return take_gif(number_images)
