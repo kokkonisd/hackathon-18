@@ -16,7 +16,8 @@ camera.annotate_background = Color(r=0, g=0, b=0)
 
 def take_picture(name='image.jpg'):
 	#path='/home/pi/Desktop/'
-	path = "static/"
+        unique_id = ''.join([str(np.random.randint(10)) for i in range (20)])
+	path = "static/" + unique_id
 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	camera.start_preview()
@@ -46,7 +47,7 @@ def take_gif(number_images):
 	
 	gif_name = path + "animation.gif"
 	command_str = "convert -delay 50 -loop 0  -treedepth 4 " + path + "image*.jpg " + gif_name
-	os.system(command_str)
+	os.popen(command_str)
 
 	return gif_name
 
