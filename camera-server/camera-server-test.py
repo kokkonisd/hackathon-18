@@ -16,7 +16,7 @@ camera.annotate_background = Color(r=0, g=0, b=0)
 
 def take_picture(name='image.jpg'):
 	#path='/home/pi/Desktop/'
-        unique_id = ''.join([str(np.random.randint(10)) for i in range (20)])
+    unique_id = ''.join([str(np.random.randint(10)) for i in range (20)])
 	path = "static/" + unique_id
 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
