@@ -35,7 +35,9 @@ var utils = require('./js/utils')(http, fs, myapps, unzip, pythonshell, spawn, i
 var externalRoutes = require('./js/routes')(app, myapps, utils, pythonshell, spawn, listeners, io, waitingNewObjects, ipmodule);
 var communicator = require('./js/communicator')(app, io, utils);
 
-app.use(express.static(__dirname + '/node_modules'))
+app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static('public'));
+
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutDir: __dirname + 'views/layouts/'}));
 app.set('view engine', 'hbs')
 

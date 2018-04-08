@@ -45,6 +45,7 @@ fs.readFile("apps/app_list.txt", 'utf-8', function(err, data) {
   var externalRoutes = require('./js/routes')(app, appManager);
 
   app.use(express.static(__dirname + '/node_modules'));
-
+	app.use('/public', express.static(__dirname + '/public'));
+	
   server.listen(8080);
 });
