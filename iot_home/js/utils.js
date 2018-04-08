@@ -64,22 +64,28 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     },
 
     downloadApp: function(application, callback) {
-        var appName = application.name.toLowerCase();
+      console.log(application.name);
+        var appName = application.name.toLowerCase().replace(' ', '');
+        console.log(appName);
         var file = fs.createWriteStream("apps/"+appName+".zip");
-        var request = http.get(`http://`+ipmodule.address()+`:8080/download/?name=${appName}`, function(response) {
-          rimraf('apps/'+application.name, function() {
-            response.pipe(file);
-          });
-          callback();
-          fs.mkdirSync('apps/'+appName);
-          var stream = fs.createReadStream('apps/'+appName+".zip").pipe(unzip.Extract({ path: 'apps/'+appName }));
-          stream.on('close', function() {
-            fs.unlink('apps/'+appName+'.zip');
+        file.on('open', function() {
+          var request = http.get(`http://`+ipmodule.address()+`:8080/download/?name=${appName}`, function(response) {
+            rimraf('apps/'+application.name, function() {
+              var stream1 = response.pipe(file);
+              stream1.on('finish', function() {
+                callback();
+                fs.mkdirSync('apps/'+appName);
+                var stream = fs.createReadStream('apps/'+appName+".zip").pipe(unzip.Extract({ path: 'apps/'+appName }));
+                stream.on('close', function() {
+                  fs.unlink('apps/'+appName+'.zip');
+                });
+              });
+            });
           });
         });
         myapps.push(application);
         fs.writeFile('apps/myapps.json', JSON.stringify(myapps), 'utf8', function() {
-      });
+        });
     },
 
     acceptObject: function(name) {
