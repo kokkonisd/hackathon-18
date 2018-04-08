@@ -1,6 +1,8 @@
 import os
 import re
 
+path= "../apps/mozart/"
+
 def generate_html():
     
     html = """<!DOCTYPE html>
@@ -80,6 +82,6 @@ def generate_html():
 
     #print (html)
 
-    file=open("../apps/mozart/vue.html", "w")
+    file=open(path+"vue.html", "w")
     file.write(html)
     file.close
