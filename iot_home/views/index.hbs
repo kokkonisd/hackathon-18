@@ -138,7 +138,7 @@ String.prototype.sansAccent = function(){
         alertify.log("Application successfully uninstalled");
       },
       openButtonClicked:function(application) {
-        window.location.replace("http://localhost:5000/apps/"+application.name.toLowerCase());
+        window.location.replace("http://{{ipaddress}}:5000/apps/"+application.name.toLowerCase());
       }
 
     }

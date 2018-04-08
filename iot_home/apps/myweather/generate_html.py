@@ -23,7 +23,6 @@ def generate_html(city_list, path):
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-
     <script type="text/javascript">
         $(document).ready(function() {
             function loopFlash() {
@@ -36,7 +35,6 @@ def generate_html(city_list, path):
                     loopFlash();
                 });
             }
-
             $('.submitCity').attr('disabled',true);
             $('#cityName').keyup(function(){
                 if($(this).val().length !=0)
@@ -44,75 +42,70 @@ def generate_html(city_list, path):
                 else
                     $('.submitCity').attr('disabled',true);
             });
-
             $(".city").mouseenter(function() {
                 $(this).children(".delete").css('opacity', 1);
             });
             $(".city").mouseleave(function() {
                 $(this).children(".delete").css('opacity', 0);
             });
-
             $(".delete").click(function() {
                 var cityName = $(this).parent().children(".city-name")[0].innerHTML;
-                $.get("/run/myweather/remove="+cityName.toLowerCase());
-                $.get("/apps/myweather/");
-                location.reload();
+                $.get("/run/myweather/remove="+cityName.toLowerCase(), function() {
+                    $.get("/apps/myweather/", function() {
+                        location.reload();
+                    });
+                });
             });
-
             $(".submitCity").click(function() {
                 var cityName = $("#cityName").val();
-                $.get("/run/myweather/add="+cityName.toLowerCase());
-                $.get("/apps/myweather/");
-                location.reload();
+                $.get("/run/myweather/add="+cityName.toLowerCase(), function() {
+                    $.get("/apps/myweather/", function() {
+                        location.reload();
+                    });
+                });
             });
-
+            $("#cityName").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    $(".submitCity").click();
+                }
+            });
             loopFlash();
         });
     </script>
-
     <style type="text/css">
         body {
             background-color: rgb(79, 94, 117);
         }
-
         .card {
             background-color: rgba(255, 255, 255, 0.3);
         }
-
         #bolt {
             font-size: 32pt;
         }
-
         hr {
             border-style: dashed;
             border-width: 1.5pt;
             border-top-width: 0px;
         }
-
         .city-name {
             font-size: 24pt;
         }
-
         .weather-items {
             font-size: 16pt;
         }
-
         ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
-
         .city {
             padding-top: 0.5%;
             padding-bottom: 1%;
         }
-
         .add {
             padding-top: 1%;
             padding-bottom: 2%;
         }
-
         .delete {
             text-align: right;
             margin: auto;
@@ -120,7 +113,6 @@ def generate_html(city_list, path):
             cursor: pointer;
         }
     </style>
-
     <title>Weather App</title>
 </head>
 <body>
@@ -131,7 +123,6 @@ def generate_html(city_list, path):
                 <i id="bolt" class="fa fa-bolt"></i>
             </div>
         </div>
-
         <hr>'''
 
 
@@ -150,12 +141,10 @@ def generate_html(city_list, path):
                     <i class="fa fa-times delete"></i>
                 </div>
             </div>
-
             <br>
             '''
 
     html+='''<hr>
-
         <div class="row">
             <div class="add col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto text-center">
                 <div class="input-group">
@@ -172,4 +161,4 @@ def generate_html(city_list, path):
 
     file=open(path + "vue.html", "w")
     file.write(html)
-    file.close
+	file.close
