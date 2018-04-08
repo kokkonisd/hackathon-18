@@ -8,15 +8,15 @@ from flask import request
 from flask import Flask, url_for
 
 
+camera = PiCamera()
+camera.rotation = 180
+camera.annotate_text_size = 92
+camera.annotate_foreground = Color(r=255, g=255, b=255)
+camera.annotate_background = Color(r=0, g=0, b=0)	
 
 def take_picture(name='image.jpg'):
 	#path='/home/pi/Desktop/'
 	path = "static/"
-	camera = PiCamera()
-	camera.rotation = 180
-	camera.annotate_text_size = 92
-	camera.annotate_foreground = Color(r=255, g=255, b=255)
-	camera.annotate_background = Color(r=0, g=0, b=0)	
 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	camera.start_preview()
@@ -32,11 +32,7 @@ def take_gif(number_images):
 	unique_id = ''.join([str(np.random.randint(10)) for i in range (20)])
 
 	path = "static/" + unique_id
-	camera = PiCamera()
-	camera.rotation = 180
-	camera.annotate_text_size = 92
-	camera.annotate_foreground = Color(r=255, g=255, b=255)
-	camera.annotate_background = Color(r=0, g=0, b=0)	
+
 	camera.annotate_text = "Facebook Hackathon " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	camera.start_preview()
