@@ -38,20 +38,16 @@
 
             $(".delete").click(function() {
                 var cityName = $(this).parent().children(".city-name")[0].innerHTML;
-                $.get("/run/myweather/remove="+cityName.toLowerCase(), function() {
-                    $.get("/apps/myweather/", function() {
-                        location.reload();
-                    });
-                });
+                $.get("/run/myweather/remove="+cityName.toLowerCase());
+                $.get("/apps/myweather/");
+                location.reload();
             });
 
             $(".submitCity").click(function() {
                 var cityName = $("#cityName").val();
-                $.get("/run/myweather/add="+cityName.toLowerCase(), function() {
-                    $.get("/apps/myweather/", function() {
-                        location.reload();
-                    });
-                });
+                $.get("/run/myweather/add="+cityName.toLowerCase());
+                $.get("/apps/myweather/");
+                location.reload();
             });
 
             loopFlash();
@@ -122,10 +118,24 @@
 
         <hr><div class="row">
                     <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">Tokyo</div>
+                        <div class="city-name lead text-center">Paris</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 13.39&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 13.61&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-sun-o"></i> Clear</div></li>
+                        </ul>
+                    <br>
+                    <i class="fa fa-times delete"></i>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                    <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
+                        <div class="city-name lead text-center">Mexico City</div>
+                        <br>
+                        <ul class="weather-items">
+                            <li><div class="text-center"><i class="fa fa-thermometer-full"></i> 25.91&deg;C</div></li>
                             <li><div class="text-center"><i class="fa fa-cloud"></i> Clouds</div></li>
                         </ul>
                     <br>
@@ -136,10 +146,10 @@
             <br>
             <div class="row">
                     <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">Paris</div>
+                        <div class="city-name lead text-center">Cape Town</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 11.87&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 16.0&deg;C</div></li>
                             <li><div class="text-center"><i class="fa fa-sun-o"></i> Clear</div></li>
                         </ul>
                     <br>
@@ -153,7 +163,7 @@
                         <div class="city-name lead text-center">Tokyo</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 13.39&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 10.98&deg;C</div></li>
                             <li><div class="text-center"><i class="fa fa-cloud"></i> Clouds</div></li>
                         </ul>
                     <br>
@@ -164,11 +174,11 @@
             <br>
             <div class="row">
                     <div class="city card col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mx-auto">
-                        <div class="city-name lead text-center">Kyoto</div>
+                        <div class="city-name lead text-center">Amsterdam</div>
                         <br>
                         <ul class="weather-items">
-                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 10.65&deg;C</div></li>
-                            <li><div class="text-center"><i class="fa fa-cloud"></i> Clouds</div></li>
+                            <li><div class="text-center"><i class="fa fa-thermometer-quarter"></i> 12.0&deg;C</div></li>
+                            <li><div class="text-center"><i class="fa fa-sun-o"></i> Clear</div></li>
                         </ul>
                     <br>
                     <i class="fa fa-times delete"></i>

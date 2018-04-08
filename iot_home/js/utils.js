@@ -113,8 +113,6 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     launchPyWithArgs(name, args, res) {
       var scriptPath = `apps/${name}/main.py`;
 
-      console.log(scriptPath);
-
       var pyshell = new pythonshell(scriptPath, { mode: "text", args: args});
 
       pyshell.end(function (err) {
