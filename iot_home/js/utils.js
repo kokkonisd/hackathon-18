@@ -67,13 +67,15 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
         var appName = application.name.toLowerCase();
         var file = fs.createWriteStream("apps/"+appName+".zip");
         var request = http.get(`http://localhost:8080/download/?name=${appName}`, function(response) {
+          rimraf('apps/'+name, function() {
             response.pipe(file);
-            callback();
-            fs.mkdirSync('apps/'+appName);
-            var stream = fs.createReadStream('apps/'+appName+".zip").pipe(unzip.Extract({ path: 'apps/'+appName }));
-            stream.on('close', function() {
-              fs.unlink('apps/'+appName+'.zip');
-            });
+          });
+          callback();
+          fs.mkdirSync('apps/'+appName);
+          var stream = fs.createReadStream('apps/'+appName+".zip").pipe(unzip.Extract({ path: 'apps/'+appName }));
+          stream.on('close', function() {
+            fs.unlink('apps/'+appName+'.zip');
+          });
         });
         myapps.push(application);
         fs.writeFile('apps/myapps.json', JSON.stringify(myapps), 'utf8', function() {
