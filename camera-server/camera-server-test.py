@@ -52,12 +52,12 @@ def take_gif(number_images):
 
 
 app = Flask(__name__)
-@app.route('/one_picture/<name_image>', view_func=Main.as_view('one_picture'), methods = ['GET'])
+@app.route('/one_picture/<name_image>')
 def gif(name_image):
 	if request.method == 'GET':
 		return take_picture(name_image)
 
-@app.route('/one_gif/<number_images>', view_func=Main.as_view('one_gif'), methods = ['GET'])
+@app.route('/one_gif/<number_images>')
 def gif(number_images):
 	if request.method == 'GET':
 		return take_gif(number_images)
