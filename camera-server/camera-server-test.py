@@ -2,7 +2,7 @@ from picamera import PiCamera, Color
 from time import sleep
 import datetime as dt
 import numpy as np
-
+import os
 
 from flask import request
 from flask import Flask, url_for
@@ -37,7 +37,7 @@ def take_gif(number_images):
 
 	camera.start_preview()
 	
-	for ID in range(number_images):
+	for ID in range(int(number_images)):
 		sleep(1)
 		image_name = 'image{0:04d}.jpg'.format(ID)
 		camera.capture(path + image_name)
@@ -52,12 +52,12 @@ def take_gif(number_images):
 
 
 app = Flask(__name__)
-@app.route('/one_picture/<name_image>', methods = ['GET'])
-def gif(name_image):
+@app.route('/one_picture/<name_image>')
+def one_picture(name_image):
 	if request.method == 'GET':
 		return take_picture(name_image)
 
-@app.route('/one_gif/<number_images>', methods = ['GET'])
-def gif(number_images):
+@app.route('/one_gif/<number_images>')
+def one_gif(number_images):
 	if request.method == 'GET':
 		return take_gif(number_images)
