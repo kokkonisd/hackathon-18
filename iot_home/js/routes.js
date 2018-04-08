@@ -102,10 +102,11 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
   });
 
   app.get("/run/:name/:args", function(req, res) {
+    console.log("penis");
     var name = req.params.name;
     var args = req.params.args;
 
-    utils.launchPy(name, args, res);
+    utils.launchPyWithArgs(name, args, res);
   });
 
   app.get("/listenrequest/", function(req, res) {

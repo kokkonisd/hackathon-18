@@ -111,9 +111,9 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     },
 
     launchPyWithArgs(name, args, res) {
-      var scriptPath = `../apps/${name}/main.py`;
+      var scriptPath = `apps/${name}/main.py`;
 
-      console.log(`python3 ${scriptPath} ${args}`);
+      console.log(scriptPath);
 
       var pyshell = new pythonshell(scriptPath, { mode: "text", args: args});
 
@@ -124,7 +124,7 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     },
 
     launchPyWithoutArgs(name, res) {
-      var scriptPath = `../apps/${name}/main.py`;
+      var scriptPath = `apps/${name}/main.py`;
 
       // Use python shell
       var pyshell = new pythonshell(scriptPath, { mode: "text", args: "html"});
