@@ -37,7 +37,7 @@ def take_gif(number_images):
 
 	camera.start_preview()
 	
-	for ID in range(number_images):
+	for ID in range(int(number_images)):
 		sleep(1)
 		image_name = 'image{0:04d}.jpg'.format(ID)
 		camera.capture(path + image_name)
