@@ -137,6 +137,10 @@ String.prototype.sansAccent = function(){
         socket.emit('uninstallApp', application.name);
         alertify.log("Application successfully uninstalled");
       },
+      openButtonClicked:function(application) {
+        window.location.replace("http://stackoverflow.com");
+      }
+
     }
   })
 </script>

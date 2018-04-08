@@ -126,7 +126,7 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
     for(var signal in listeners) {
       for(var i = 0; i < listeners[signal].length; i++) {
         if(listeners[signal][i].name == name)
-          res.write(listeners[signal][i].ip);
+          res.json({ip:listeners[signal][i].ip});
       }
     }
     res.send("");
