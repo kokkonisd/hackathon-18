@@ -1,4 +1,4 @@
-module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, listeners, waitingNewObjects, rimraf) {
+module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, listeners, waitingNewObjects, rimraf, ipmodule) {
 
   const removeAlreadyPossessed = function(apps) {
     newapps = [];
@@ -50,7 +50,7 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
 
   return {
     searchApps: function(name, callBack) {
-        http.get(`http://localhost:8080/search/?name=${name}`, res => {
+        http.get(`http://`+ipmodule.address()+`:8080/search/?name=${name}`, res => {
             res.setEncoding("utf8");
             var body = "";
             res.on("data", data => {
@@ -66,14 +66,16 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     downloadApp: function(application, callback) {
         var appName = application.name.toLowerCase();
         var file = fs.createWriteStream("apps/"+appName+".zip");
-        var request = http.get(`http://localhost:8080/download/?name=${appName}`, function(response) {
+        var request = http.get(`http://`+ipmodule.address()+`:8080/download/?name=${appName}`, function(response) {
+          rimraf('apps/'+application.name, function() {
             response.pipe(file);
-            callback();
-            fs.mkdirSync('apps/'+appName);
-            var stream = fs.createReadStream('apps/'+appName+".zip").pipe(unzip.Extract({ path: 'apps/'+appName }));
-            stream.on('close', function() {
-              fs.unlink('apps/'+appName+'.zip');
-            });
+          });
+          callback();
+          fs.mkdirSync('apps/'+appName);
+          var stream = fs.createReadStream('apps/'+appName+".zip").pipe(unzip.Extract({ path: 'apps/'+appName }));
+          stream.on('close', function() {
+            fs.unlink('apps/'+appName+'.zip');
+          });
         });
         myapps.push(application);
         fs.writeFile('apps/myapps.json', JSON.stringify(myapps), 'utf8', function() {
