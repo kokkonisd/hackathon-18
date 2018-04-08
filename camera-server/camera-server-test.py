@@ -47,7 +47,7 @@ def take_gif(number_images):
 	camera.stop_preview()
 	
 	gif_name = path + "animation.gif"
-	command_str = "convert -delay 50 -loop 0" + path + "image*.jpg " + gif_name
+	command_str = "convert -delay 50 -loop 0  -treedepth 4 " + path + "image*.jpg " + gif_name
 	os.system(command_str)
 
 	return gif_name
