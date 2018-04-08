@@ -13,7 +13,6 @@ def render():
     file=open(path+"cities.txt","r")
     l=file.read().split(',')
     cities=[]
-    print(l)
     for city in l:
         if (city!=""):
             cities.append(request(city))
