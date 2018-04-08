@@ -51,7 +51,7 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
   app.post('/store', function(req, res) {
     req.session.login = req.body.login;
     var callback = function(body) {
-      res.render('store.hbs', {username: req.session.login, availableApps: body});
+      res.render('store.hbs', {username: req.session.login, availableApps: body, ipaddress: ipmodule.address()});
     }
     utils.searchApps("", callback);
   });
@@ -59,13 +59,13 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
   app.get('/store', function(req, res) {
     if(req.session.login == undefined) {
       var callback = function(body) {
-        res.render('store.hbs', {username: "Not logged in", availableApps: body});
+        res.render('store.hbs', {username: "Not logged in", availableApps: body, ipaddress: ipmodule.address()});
       }
       utils.searchApps("", callback);
     }
     else {
       var callback = function(body) {
-        res.render('store.hbs', {username: req.session.login, availableApps: body});
+        res.render('store.hbs', {username: req.session.login, availableApps: body, ipaddress: ipmodule.address()});
       }
       utils.searchApps("", callback);
     }
@@ -74,7 +74,7 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
   app.post('/objects', function(req, res) {
     req.session.login = req.body.login;
     var callback = function(body) {
-      res.render('objects.hbs', {username: req.session.login, myobjects: getMyObjects(), newobjects: processNewObjectsForDisplay()});
+      res.render('objects.hbs', {username: req.session.login, myobjects: getMyObjects(), newobjects: processNewObjectsForDisplay(), ipaddress: ipmodule.address()});
     }
     utils.searchApps("", callback);
   });
@@ -82,13 +82,13 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
   app.get('/objects', function(req, res) {
     if(req.session.login == undefined) {
       var callback = function(body) {
-        res.render('objects.hbs', {username: "Not logged in", myobjects: getMyObjects(), newobjects: processNewObjectsForDisplay()});
+        res.render('objects.hbs', {username: "Not logged in", myobjects: getMyObjects(), newobjects: processNewObjectsForDisplay(), ipaddress: ipmodule.address()});
       }
       utils.searchApps("", callback);
     }
     else {
       var callback = function(body) {
-        res.render('objects.hbs', {username: req.session.login, myobjects: getMyObjects(), newobjects: processNewObjectsForDisplay()});
+        res.render('objects.hbs', {username: req.session.login, myobjects: getMyObjects(), newobjects: processNewObjectsForDisplay(), ipaddress: ipmodule.address()});
       }
       utils.searchApps("", callback);
     }

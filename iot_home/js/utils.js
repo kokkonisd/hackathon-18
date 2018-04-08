@@ -67,7 +67,7 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
         var appName = application.name.toLowerCase();
         var file = fs.createWriteStream("apps/"+appName+".zip");
         var request = http.get(`http://`+ipmodule.address()+`:8080/download/?name=${appName}`, function(response) {
-          rimraf('apps/'+name, function() {
+          rimraf('apps/'+application.name, function() {
             response.pipe(file);
           });
           callback();
