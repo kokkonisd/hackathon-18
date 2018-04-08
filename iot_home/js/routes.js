@@ -102,7 +102,6 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
   });
 
   app.get("/run/:name/:args", function(req, res) {
-    console.log("penis");
     var name = req.params.name;
     var args = req.params.args;
 
