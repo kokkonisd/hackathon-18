@@ -1,4 +1,4 @@
-module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, listeners, waitingNewObjects) {
+module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, listeners, waitingNewObjects, rimraf) {
 
   const removeAlreadyPossessed = function(apps) {
     newapps = [];
@@ -18,6 +18,15 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
     });
     return existe;
   };
+
+  function removefrom(apps, appName) {
+    for(var i = 0; i < apps.length; i++) {
+      if(apps[i].name == appName) {
+        apps.splice(i, 1);
+        return;
+      }
+    }
+  }
 
   function alreadyContains(devices, deviceName) {
     for(var key in devices) {
@@ -90,6 +99,46 @@ module.exports = function(http, fs, myapps, unzip, pythonshell, spawn, io, liste
           return;
         }
       }
+    },
+
+    uninstallApp: function(name, client) {
+      removefrom(myapps, name);
+      rimraf('apps/'+name, function() {
+      });
+      client.emit('appUninstalled', myapps);
+      fs.writeFile('apps/myapps.json', JSON.stringify(myapps), 'utf8', function() {
+      });
+    },
+
+    launchPyWithArgs(name, args, res) {
+      var scriptPath = `../apps/${name}/main.py`;
+
+      console.log(`python3 ${scriptPath} ${args}`);
+
+      var pyshell = new pythonshell(scriptPath, { mode: "text", args: args});
+
+      pyshell.end(function (err) {
+          if (err) throw err;
+          res.end();
+      });
+    },
+
+    launchPyWithoutArgs(name, res) {
+      var scriptPath = `../apps/${name}/main.py`;
+
+      // Use python shell
+      var pyshell = new pythonshell(scriptPath, { mode: "text", args: "html"});
+
+      // end the input stream and allow the process to exit
+      pyshell.end(function (err) {
+          if (err) throw err;
+
+          fs.readFile(`apps/${name}/vue.html`, function (err, data) {
+              res.writeHead(200, {'Content-Type': 'text/html'});
+              res.write(data);
+              res.end();
+          });
+      });
     }
 
 }

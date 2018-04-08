@@ -62,13 +62,12 @@
                 <p>
                   ${resultat.description}<br>
                   <strong>version ${resultat.version}, rating: ${resultat.rating} </strong>
-                  <a href="" class="button is-danger" style="margin-top: 20px; margin-left: 400px;" @click="uninstallButtonClicked(resultat)">Uninstall</a><a href="" class="button is-success" style="margin-left: 50px; margin-top: 20px; width: 100px; align:right" @click="openButtonClicked(resultat)">Open</a>
+                  <div style="text-align: right">
+                    <button class="button is-danger" style="margin-top: 20px; margin-left: 400px;" @click="uninstallButtonClicked(resultat)">Uninstall</button><button class="button is-success" style="margin-left: 50px; margin-top: 20px; width: 100px; text-align:right" @click="openButtonClicked(resultat)">Open</button>
+                  </div>
                 </p>
               </div>
             </div>
-          <div class="media-right">
-             <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
-          </div>
           </div>
         </article>
       </div>
@@ -118,7 +117,10 @@ String.prototype.sansAccent = function(){
       });
       socket.on('updateMyapps', function(payload) {
         this.myapps = payload;
-      })
+      }.bind(this));
+      socket.on('appUninstalled', function(payload) {
+        this.myapps = payload;
+      }.bind(this));
     },
 
 
@@ -133,6 +135,7 @@ String.prototype.sansAccent = function(){
     methods: {
       uninstallButtonClicked:function(application) {
         socket.emit('uninstallApp', application.name);
+        alertify.log("Application successfully uninstalled");
       },
     }
   })

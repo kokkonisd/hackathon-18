@@ -1,7 +1,5 @@
 module.exports = function(app, io, utils) {
 
-  // TODO appDownloaded, refreshStore
-
   io.on('connection', function(client) {
     client.on('searchApps', function(data) {
       client.emit('searchApps', searchApps(data));
@@ -18,8 +16,10 @@ module.exports = function(app, io, utils) {
     });
 
     client.on('uninstallApp', function(data) {
-      utils.acceptObject(data);
+      utils.uninstallApp(data, client);
     });
+
+
   });
 
 };

@@ -97,36 +97,15 @@ module.exports = function(app, myapps, utils, pythonshell, spawn, listeners, io,
 
   app.get("/apps/:name", function(req, res) {
       var name = req.params.name;
-      var scriptPath = `../apps/${name}/main.py`;
 
-      // Use python shell
-      var pyshell = new pythonshell(scriptPath, { mode: "text", args: "html"});
-
-      // end the input stream and allow the process to exit
-      pyshell.end(function (err) {
-          if (err) throw err;
-
-          fs.readFile(`apps/${name}/vue.html`, function (err, data) {
-              res.writeHead(200, {'Content-Type': 'text/html'});
-              res.write(data);
-              res.end();
-          });
-      });
+      utils.launchPyWithoutArgs(name, res);
   });
 
   app.get("/run/:name/:args", function(req, res) {
     var name = req.params.name;
     var args = req.params.args;
-    var scriptPath = `../apps/${name}/main.py`;
 
-    console.log(`python3 ${scriptPath} ${args}`);
-
-    var pyshell = new pythonshell(scriptPath, { mode: "text", args: args});
-
-    pyshell.end(function (err) {
-        if (err) throw err;
-        res.end();
-    });
+    utils.launchPy(name, args, res);
   });
 
   app.get("/listenrequest/", function(req, res) {
