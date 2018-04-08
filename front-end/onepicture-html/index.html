@@ -11,7 +11,15 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $(".pic").click(function() {
-                $.get("/run/myweather/takepicture=pic.png", function() {
+                $.get("/run/myweather/take_picture", function() {
+                    $.get("/apps/onepicture/", function() {
+                        location.reload();
+                    });
+                });
+            });
+
+            $(".gif").click(function() {
+                $.get("/run/myweather/take_gif", function() {
                     $.get("/apps/onepicture/", function() {
                         location.reload();
                     });
