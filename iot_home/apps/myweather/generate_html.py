@@ -63,9 +63,11 @@ def generate_html(city_list, path):
 
             $(".submitCity").click(function() {
                 var cityName = $("#cityName").val();
-                $.get("/run/myweather/add="+cityName.toLowerCase());
-                $.get("/apps/myweather/");
-                location.reload();
+                $.get("/run/myweather/add="+cityName.toLowerCase(), function() {
+                    $.get("/apps/myweather/", function() {
+                        location.reload();
+                    });
+                });
             });
 
             loopFlash();
