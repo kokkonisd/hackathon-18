@@ -1,8 +1,11 @@
 #! /usr/bin/env python3
 
 from generate_html import generate_html
-from cyclop import take_picture
+import requests
 import sys
+
+# connected camera server
+server_address = "http://192.168.1.10:5000/"
 
 for argument in sys.argv[1::]:
 	parsed_arg = argument.split('=')
@@ -14,7 +17,12 @@ for argument in sys.argv[1::]:
 		value=None
 
 	if (arg=="take_picture"):
-		picture_path = take_picture(name=value)
-		generate_html(picture_path)
+		r = requests.get(server_address + "one_picture/"+str(name))
+		image_link = server_address + r.text
+		generate_html(image_link)
 sys.stdout.flush()
+
+
+
+
 
