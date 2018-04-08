@@ -15,7 +15,8 @@ function parseApps(appList) {
 		nextApp.rating = substrings[2];
 		nextApp.version = substrings[3];
 		for(attribut in nextApp) {
-			nextApp[attribut] = nextApp[attribut].replace('\r\n', '');
+			nextApp[attribut] = nextApp[attribut].replace('\r', '');
+			nextApp[attribut] = nextApp[attribut].replace('\n', '');
 		}
 		nextApp.rating = parseFloat(nextApp.rating);
 		nextApp.version = parseFloat(nextApp.version);
