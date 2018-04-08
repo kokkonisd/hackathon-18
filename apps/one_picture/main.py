@@ -20,7 +20,6 @@ for argument in sys.argv[1::]:
 		r = requests.get(server_address + "one_picture/"+str(value))
 		image_link = server_address + r.text
 		generate_html(image_link)
-sys.stdout.flush()
 
 
 
