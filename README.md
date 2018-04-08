@@ -1,4 +1,4 @@
-###One Node
+# One Node
 
 Let's talk about our project. Our idea revolves around building a simple, easy to use and most importantly secure framework which handles connected objects.
 The idea is simple: the more objects you connect to the Internet, the more you open yourself and your precious data to malicious attackers. In our framework, all the objects are interfacing with the user through a single node, which minimizes attack vectors.
