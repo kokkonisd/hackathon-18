@@ -22,9 +22,9 @@ for argument in sys.argv[1::]:
 		generate_html(image_link)
 
 	if (arg=="take_gif"):
-	r = requests.get(server_address + "one_gif/3")
-	image_link = server_address + r.text
-	generate_html(image_link)
+		r = requests.get(server_address + "one_gif/3")
+		image_link = server_address + r.text
+		generate_html(image_link)
 
 
 
