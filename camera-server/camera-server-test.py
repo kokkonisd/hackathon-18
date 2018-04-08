@@ -53,11 +53,11 @@ def take_gif(number_images):
 
 app = Flask(__name__)
 @app.route('/one_picture/<name_image>')
-def gif(name_image):
+def one_picture(name_image):
 	if request.method == 'GET':
 		return take_picture(name_image)
 
 @app.route('/one_gif/<number_images>')
-def gif(number_images):
+def one_gif(number_images):
 	if request.method == 'GET':
 		return take_gif(number_images)
