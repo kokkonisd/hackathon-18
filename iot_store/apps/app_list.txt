@@ -1,4 +1,5 @@
 Speakers#Louder music with these brand new speakers !#4.3#1.3$
 Fridge#Have cold drinks when you come back home !#4.9#1.0$
 Thermometer#How cold is it in your home? Time to know this !#3.8#1.2.1$
-MyWeather#Get the weather of all around the world!#4.9#1.0.1
+MyWeather#Get the weather of all around the world!#4.9#1.0.1$
+OnePicture#Take amazing pictures with your connected camera!#4.1#1.1
