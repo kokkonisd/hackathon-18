@@ -16,8 +16,8 @@ for argument in sys.argv[1::]:
 	else:
 		value=None
 
-	if (arg=="take_picture"):
-		r = requests.get(server_address + "one_picture/temp.jpg")
+	if (arg=="take_picture") or (arg=="html"):
+		r = requests.get(server_address + "onepicture/temp.jpg")
 		image_link = server_address + r.text
 		generate_html(image_link)
 

@@ -1,4 +1,4 @@
-path="apps/one_picture/"
+path="apps/onepicture/"
 
 def generate_html(image_path):
     f = open(path + 'vue.html', 'w')
@@ -15,7 +15,7 @@ def generate_html(image_path):
     <script type="text/javascript">
         $(document).ready(function() {
             $(".pic").click(function() {
-                $.get("/run/myweather/take_picture", function() {
+                $.get("/run/onepicture/take_picture", function() {
                     $.get("/apps/onepicture/", function() {
                         location.reload();
                     });
@@ -23,7 +23,7 @@ def generate_html(image_path):
             });
 
             $(".gif").click(function() {
-                $.get("/run/myweather/take_gif", function() {
+                $.get("/run/onepicture/take_gif", function() {
                     $.get("/apps/onepicture/", function() {
                         location.reload();
                     });
