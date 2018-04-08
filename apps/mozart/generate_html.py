@@ -1,7 +1,7 @@
 import os
 import re
 
-path= "../apps/mozart/"
+path= "/apps/mozart/"
 
 def generate_html():
     
@@ -60,7 +60,6 @@ def generate_html():
                 <hr>
                 <div class="card music-list">"""
 
-    working_directory = os.getcwd()
     files = os.listdir("../apps/mozart/musiques")
 
     pattern = re.compile("^[a-zA-Z]+.mp3$")
@@ -79,8 +78,6 @@ def generate_html():
             </div>
         </body>
         </html>"""
-
-    #print (html)
 
     file=open(path+"vue.html", "w")
     file.write(html)
