@@ -1,15 +1,26 @@
 import re
-from enum import Enum
 
 
 """
--------------------WIP------------------
+
+    <----------------------------------------------------------------------------------------------------->
 
 html_parser is a tool to modify html files according to the python context.
+
 To insert variables or expression, one should insert {{ variable here }} into the html file.
+
 To insert conditions, follow the template : {% if CONDITION || HTML || elif CONDITION || HTML || else || HTML %}
-The if test is the only one mandatory and there could be any number of elif.
+or {% for var in set || HTML %}
+
+You can insert variables or even nested script in if and for statements. 
+In the if satement, "if" is the only one to be mendatory and only the first "else" will be executed.
+
+    <----------------------------------------------------------------------------------------------------->
+
+To test the function, run "test_html_parser.py"
+
 """
+
 
 def render_html(template_name, context):
     """Replace the script in the template with values in the given context"""
@@ -34,18 +45,12 @@ def parse_html(html, context):
 
     blocks = pattern.split(html)
 
-    print("")
-    print("  >----------------------------<")
-    print("")
-    print(blocks)
-    print("")
-
     i = 0
     while i < len(blocks):
         if blocks[i] == "{{":
             # A variable or expression
             i += 1
-            parsed_html += eval(blocks[i], {}, context)
+            parsed_html += str(eval(blocks[i], {}, context))
             i += 1
         elif blocks[i] == "{%":
             script = ""
@@ -60,10 +65,8 @@ def parse_html(html, context):
                 if i + 1 == len(blocks) or nb_script_nested == 0:
                     break
                 i += 1
-            print("for")
             parsed_html += run_script(script, context)
         else:
-            print("html")
             parsed_html += blocks[i]
 
         i += 1
@@ -75,12 +78,8 @@ def run_script(script, context):
     """Parse script. A script should have the following format : {% if X || instruction || else || other instruction %}
     or {% for i in XXX || instruction %}"""
 
-    result = ""
     parsed_script = script[2:-2].split("||")
-    header = parsed_script[0].split(None, 1)
-
-    #print("Parsed script : ")
-    # print(parsed_script)
+    header = parsed_script[0].split()
 
     # The header should be either if or for
     if header[0] == "if":
@@ -118,19 +117,33 @@ def run_script(script, context):
             cursor += 1
 
     elif header[0] == "for":
-        pass
+        html=""
 
-    return result
+        var = header[1]
+        if header[2] != "in":
+            return ""  # Error here, should be "in" of the "for XXX in YYY"
+        context_list=eval(header[3], {}, context)
 
+        html_to_parse=""
+        nb_script_nested = 0
+        i=1
+        # taking into acount nested script, that had been separated with the patern "||"
+        while True:
+            nb_script_nested += parsed_script[i].count("{%")
+            nb_script_nested -= parsed_script[i].count("%}")
 
-cont = {"test": "Success", "a": 6, "c": 8, "arr": [1, 2, 3]}
-test = open("result.html", "w")
-test.write(render_html("test.html", cont))
-test.close()
+            html_to_parse+=parsed_script[i]
 
+            if nb_script_nested == 0:
+                break
+            i += 1
 
-"""
-{% for i in arr || 
-    <li>et {{i}}!</li>
-%}
-"""
+            html_to_parse+="||"
+
+        for value in context_list:
+            context[var]=value
+            html += parse_html(html_to_parse,context)
+
+        return html
+
+    return "" #Nothing matching current context

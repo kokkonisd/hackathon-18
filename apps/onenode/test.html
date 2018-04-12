@@ -13,7 +13,8 @@
 <p>a==5 and c>=2 : 
         {% if a==5 and c>=3 || <strong> true </strong> ! 
         || else || 
-            Ok no but at least arr[1]>2 : {% if arr[1]>2 || <strong> true </strong> ! 
+            Ok no but at least arr[1]>2 : 
+            {% if arr[1]>2 || <strong> true </strong> ! 
             || else || <strong> false </strong> 
             %} ... 
         %}
@@ -25,8 +26,18 @@
 </p>
 
 <ul>
-    
-</ul> 
+    {% for i in range(5) || 
+        <li>et {{i+1}}! ({%if i%2==0 ||pair|| else ||impair%})</li>
+    %}
+</ul>
+
+<div class="matrix" >
+    {%for i in range(6)||
+        <p>
+        {%for j in range(6)||{{i}},{{j}} %}
+        </p> 
+    %}
+</div>
 
 </body>
 </html> 
