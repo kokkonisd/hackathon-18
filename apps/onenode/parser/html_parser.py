@@ -1,6 +1,5 @@
 import re
 
-
 """
 
     <----------------------------------------------------------------------------------------------------->
@@ -34,7 +33,8 @@ def render_html(template_name, context):
 
 
 def parse_html(html, context):
-    """Replace variable inside template by they current value in the context.
+    """Replace variable inside template by they current value in the context."""
+    """
     Variable are identified by the following syntax {{MyVariable}} which will by remplaced by its value.
     """
 

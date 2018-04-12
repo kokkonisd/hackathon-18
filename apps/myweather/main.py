@@ -8,6 +8,7 @@ from request import request
 import sys
 
 path="apps/myweather/"
+path=""
 
 def render():
     file=open(path+"cities.txt","r")
