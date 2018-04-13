@@ -25,17 +25,11 @@ def generate_html(city_list, path):
 
     for city in city_list:
         towns.append(Town(city["name"],city["main"]["temp"]-273.15,str(0.1*int(10*(city["main"]["temp"]-273.15))),get_icon(city["weather"][0]["main"]),city["weather"][0]["main"]))
-        #city_tuple=(get_thermometer(city["main"]["temp"]-273.15),str(0.1*int(10*(city["main"]["temp"]-273.15))),get_icon(city["weather"][0]["main"]),city["weather"][0]["main"])
-        """context["town"][city["name"]]={}
-        context["town"][city["name"]]["thermometer"]=get_thermometer(city["main"]["temp"]-273.15)
-        context["town"][city["name"]]["temp"]=str(0.1*int(10*(city["main"]["temp"]-273.15)))
-        context["town"][city["name"]]["icon"]=get_icon(city["weather"][0]["main"])
-        context["town"][city["name"]]["weather"]=city["weather"][0]["main"]"""
-
+ 
     context["city_list"]=towns
 
     print(context)
-    template=open("index.html","r")
+    template=open(path +"index.html","r")
     file=open(path + "vue.html", "w")
     file.write(parse_html(template.read(),context))
     file.close()

@@ -1,1 +1,1 @@
-paris,mexico city,tokyo,amsterdam,ioannina,
+Bordeaux,London,Paris,tokyo,bristol,

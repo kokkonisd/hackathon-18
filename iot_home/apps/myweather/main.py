@@ -9,6 +9,7 @@ import sys
 
 path="apps/myweather/"
 
+
 def render():
     file=open(path+"cities.txt","r")
     l=file.read().split(',')
