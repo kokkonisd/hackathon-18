@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>First parsing test : {{ test }} </p>
+<p>a==5 : 
+    {% if a==5 || <strong> true </strong> ! 
+    || elif a==6 or a==4|| almost there.
+    || else || <strong> false </strong> ... %}
+</p>
+
+<p>a==5 and c>=2 : 
+        {% if a==5 and c>=3 || <strong> true </strong> ! 
+        || else || 
+            Ok no but at least arr[1]>2 : 
+            {% if arr[1]>2 || <strong> true </strong> ! 
+            || else || <strong> false </strong> 
+            %} ... 
+        %}
+</p>
+
+<p>arr[1]==2 : 
+        {% if arr[1]==2 || <strong> true </strong> ! 
+        || else || <strong> false </strong> ... %}
+</p>
+
+<ul>
+    {% for i in range(5) || 
+        <li>et {{i+1}}! ({%if i%2==0 ||pair|| else ||impair%})</li>
+    %}
+</ul>
+
+<div class="matrix" >
+    {%for i in range(6)||
+        <p>
+        {%for j in range(6)||{{i}},{{j}} %}
+        </p> 
+    %}
+</div>
+
+</body>
+</html> 
